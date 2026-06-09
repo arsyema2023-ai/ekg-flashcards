@@ -323,28 +323,41 @@
                 </div>
             </div>
 
-            <!-- Controls -->
-            <div class="controls">
-                <button class="ctrl-btn prev" id="prev-btn">
-                    <span class="ctrl-icon">◀</span>
-                    <span class="ctrl-label">Sebelumnya</span>
-                </button>
-                <button class="ctrl-btn flip" id="flip-btn">
-                    <span class="ctrl-icon">🔄</span>
-                    <span class="ctrl-label">Balik Kartu</span>
-                </button>
-                <button class="ctrl-btn shuffle" id="shuffle-btn">
-                    <span class="ctrl-icon">🔀</span>
-                    <span class="ctrl-label">Acak Ulang</span>
-                </button>
-                <button class="ctrl-btn next" id="next-btn">
-                    <span class="ctrl-label">Selanjutnya</span>
-                    <span class="ctrl-icon">▶</span>
-                </button>
-            </div>
-
-            <div class="back-to-info">
-                <button class="btn-text" id="back-to-info">← Kembali ke Infografis</button>
+            <!-- Navigation Bar — Sticky Bottom -->
+            <div class="nav-bar">
+                <div class="nav-row top-actions">
+                    <button class="nav-btn-action" id="shuffle-btn">
+                        <span class="nav-icon">🔀</span>
+                        <span class="nav-label">Acak</span>
+                    </button>
+                    <button class="nav-btn-action" id="flip-btn">
+                        <span class="nav-icon">🔄</span>
+                        <span class="nav-label">Balik</span>
+                    </button>
+                    <button class="nav-btn-action" id="hint-btn-nav">
+                        <span class="nav-icon">💡</span>
+                        <span class="nav-label">Hint</span>
+                    </button>
+                    <button class="nav-btn-action" id="back-to-info-nav">
+                        <span class="nav-icon">📖</span>
+                        <span class="nav-label">Materi</span>
+                    </button>
+                </div>
+                <div class="nav-row main-nav">
+                    <button class="nav-btn-large prev" id="prev-btn">
+                        <span class="nav-arrow">◀</span>
+                        <span class="nav-detail">Sebelumnya</span>
+                    </button>
+                    <div class="nav-counter">
+                        <span id="current-num-nav">1</span>
+                        <span class="nav-sep">/</span>
+                        <span id="total-num-nav">25</span>
+                    </div>
+                    <button class="nav-btn-large next" id="next-btn">
+                        <span class="nav-detail">Selanjutnya</span>
+                        <span class="nav-arrow">▶</span>
+                    </button>
+                </div>
             </div>
         </section>
     </div>
