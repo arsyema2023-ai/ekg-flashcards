@@ -560,11 +560,11 @@ const FLASHCARD_DATA = {
       osceTemplate: '"EKG menunjukkan irama sinus dengan PR interval memanjang 0.30 detik. Setiap P diikuti QRS. Kesan: AV Block Derajat 1. Pasien asimptomatik dan tidak memerlukan tatalaksana khusus. Saya hanya akan observasi."'
     },
     {
-      id: 'm1-16',
-      title: 'AV Block Derajat 2 — Mobitz I (Wenckebach)',
+            id: 'm1-16',
+      title: 'AV Block Derajat 2',
       priority: 'priority-menengah',
       ecgParams: {
-        heartRate: 0, prInterval: 0.18, qrsDuration: 0.08, qtInterval: 0.44,
+        heartRate: 62, prInterval: 0.18, qrsDuration: 0.08, qtInterval: 0.44,
         pVisible: true, rAmplitude: 1.0, sAmplitude: 0.2, tAmplitude: 0.3,
         wenckebach: true,
         leads: {}
@@ -595,11 +595,11 @@ const FLASHCARD_DATA = {
       osceTemplate: '"EKG menunjukkan PR interval yang memanjang progresif hingga satu QRS drop. Kesan: AV Block Derajat 2 Mobitz I (Wenckebach). QRS sempit menandakan blok di AV node. Pasien simptomatik ringan, saya akan berikan Atropin dan hentikan beta-blocker. Observasi."'
     },
     {
-      id: 'm1-17',
-      title: 'AV Block Derajat 2 — Mobitz II',
+            id: 'm1-17',
+      title: 'AV Block Derajat 2',
       priority: 'priority-tinggi',
       ecgParams: {
-        heartRate: 0, prInterval: 0.18, qrsDuration: 0.13, qtInterval: 0.44,
+        heartRate: 55, prInterval: 0.18, qrsDuration: 0.13, qtInterval: 0.44,
         pVisible: true, rAmplitude: 1.0, sAmplitude: 0.3, tAmplitude: 0.3,
         mobitz2: true,
         leads: {}
@@ -1367,21 +1367,27 @@ const FLASHCARD_DATA = {
       title: 'Supraventricular Tachycardia (AVRT — WPW)',
       priority: 'priority-tinggi',
       ecgParams: {
-        heartRate: 195, prInterval: 0, qrsDuration: 0.08, qtInterval: 0.24,
+        heartRate: 195, prInterval: 0.08, qrsDuration: 0.10, qtInterval: 0.24,
         pVisible: false, rAmplitude: 1.0, sAmplitude: 0.2, tAmplitude: 0.3,
-        leads: {}
+        wpw: true, deltaWave: true,
+        leads: {
+          'V1': { deltaWave: true, rAmplitude: 0.9 },
+          'V2': { deltaWave: true, rAmplitude: 1.1 },
+          'V5': { deltaWave: true, rAmplitude: 1.5 },
+          'V6': { deltaWave: true, rAmplitude: 1.3 }
+        }
       },
       interp: {
         irama: 'Sangat teratur, onset mendadak',
         rate: '195 x/menit',
-        axis: 'Normal',
-        prInterval: 'Tidak dapat dinilai — P retrograde mungkin setelah QRS atau tidak tampak',
-        qrsComplex: '0.08 detik — Sempit (ortodromic AVRT)',
+        axis: 'Normal atau bervariasi',
+        prInterval: 'PR sangat pendek (0.08 detik) — Delta wave menggantikan PR normal',
+        qrsComplex: '0.10 detik — Sedikit melebar karena delta wave (ortodromic AVRT)',
         stSegment: 'Depresi ST ringan sekunder takikardia',
         tWave: 'Inversi ringan pasca episode',
         qtInterval: 'QTc normal setelah dikoreksi',
         uWave: 'Tidak tampak',
-        ecgDiagnosis: 'SVT — Kemungkinan AVRT (Atrioventricular Reentrant Tachycardia via accessory pathway)'
+        ecgDiagnosis: 'SVT — AVRT (Atrioventricular Reentrant Tachycardia via accessory pathway / WPW)'
       },
       clinical: {
         scenario: 'Laki-laki 18 tahun, jantung berdebar mendadak saat olahraga, berhenti tiba-tiba setelah manuver Valsalva. EKG saat irama sinus normal menunjukkan PR pendek + delta wave (WPW pattern). Episode sudah 4 kali dalam 1 tahun.',
@@ -2652,11 +2658,11 @@ const FLASHCARD_DATA = {
       osceTemplate: '"Gagal jantung diastolik, echo penebalan dinding. EKG: low voltage (paradoks!). Curiga Cardiac Amyloidosis. Rujuk skintigrafi DPDP dan biopsi untuk konfirmasi tipe."'
     },
     {
-      id: 'm3-21',
-      title: 'Mitral Stenosis — Atrial Fibrillation',
+            id: 'm3-21',
+      title: 'Mitral Stenosis',
       priority: 'priority-menengah',
       ecgParams: {
-        heartRate: 0, prInterval: 0, qrsDuration: 0.08, qtInterval: 0.38,
+        heartRate: 75, prInterval: 0, qrsDuration: 0.08, qtInterval: 0.38,
         pVisible: false, rAmplitude: 0.9, sAmplitude: 0.2, tAmplitude: 0.25,
         fibrillation: true, irregular: true,
         leads: {}

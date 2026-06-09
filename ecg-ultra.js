@@ -558,6 +558,10 @@ class ECGUltraGenerator {
 
     // Baseline wander + noise
     voltage += 0.03 * Math.sin(2 * Math.PI * 0.15 * t + 0.5) + (Math.random() - 0.5) * 0.015;
+    // Safety net: never return true flatline (minimal visible signal)
+    if (Math.abs(voltage) < 0.005 && !lp.vf && !lp.asystole) {
+      voltage = 0.02 * Math.sin(2 * Math.PI * 1.2 * t + 1.0) + (Math.random() - 0.5) * 0.01;
+    }
     return voltage;
   }
 
