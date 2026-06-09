@@ -179,7 +179,7 @@ def generate_set(count, prefix):
 # Set 1: 25 items
 set1 = generate_set(25, "s1")
 with open("data.js", "w") as f:
-    f.write("const flashcardData = " + json.dumps(set1, indent=4) + ";\n")
+    f.write("const ecgData = " + json.dumps(set1, indent=4) + ";\n")
 
 # Set 2: 10 items (replaces clinical-data.js)
 set2 = generate_set(10, "s2")
