@@ -8,9 +8,9 @@
     --secondary: #10b981;
     --danger: #ef4444;
     --warning: #f59e0b;
-    --grid-color: rgba(239, 68, 68, 0.15); /* Red for ECG grid */
+    --grid-color: rgba(239, 68, 68, 0.15);
     --grid-major: rgba(239, 68, 68, 0.3);
-    --trace-color: #10b981; /* Green trace on dark mode */
+    --trace-color: #10b981;
 }
 
 * {
@@ -50,6 +50,38 @@ body {
 
 .app-header p {
     color: #94a3b8;
+    margin-bottom: 1.5rem;
+}
+
+/* Mode Toggle */
+.mode-toggle {
+    display: inline-flex;
+    background: rgba(15, 23, 42, 0.6);
+    padding: 0.5rem;
+    border-radius: 30px;
+    border: 1px solid var(--card-border);
+}
+
+.mode-btn {
+    background: transparent;
+    border: none;
+    color: #94a3b8;
+    padding: 0.5rem 1.5rem;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.mode-btn.active {
+    background: var(--primary);
+    color: white;
+    box-shadow: 0 2px 10px rgba(59, 130, 246, 0.3);
+}
+
+.mode-btn:hover:not(.active) {
+    color: white;
 }
 
 /* Glassmorphism utility */
@@ -209,17 +241,45 @@ body {
     color: #f8fafc;
 }
 
-/* ECG SVG Styling */
-.ecg-container {
+/* ECG SVG & Clinical Image Styling */
+.ecg-container, .clinical-img-container {
     flex-grow: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #fff; /* White background for realistic ECG */
     border-radius: 8px;
     overflow: hidden;
     margin-bottom: 1.5rem;
     position: relative;
+    width: 100%;
+}
+
+.ecg-container {
+    background-color: #fff;
+}
+
+.clinical-img-container {
+    background-color: rgba(0,0,0,0.5);
+}
+
+.clinical-img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.image-fallback {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fca5a5;
+    font-size: 0.9rem;
+    text-align: center;
+    padding: 1rem;
+    background: rgba(0,0,0,0.7);
+    border-radius: 8px;
 }
 
 svg.ecg-grid {
@@ -230,7 +290,7 @@ svg.ecg-grid {
 .grid-minor { stroke: #ffcccc; stroke-width: 0.5; }
 .grid-major { stroke: #ff9999; stroke-width: 1; }
 .ecg-trace { 
-    stroke: #000; /* Black trace for realistic look */
+    stroke: #000; 
     stroke-width: 1.5; 
     fill: none; 
     stroke-linejoin: round;
@@ -265,6 +325,12 @@ svg.ecg-grid {
     color: #cbd5e1;
     display: inline-block;
     width: 120px;
+    vertical-align: top;
+}
+
+.interp-row span {
+    display: inline-block;
+    width: calc(100% - 125px);
 }
 
 .interp-row.highlight {
@@ -281,6 +347,10 @@ svg.ecg-grid {
     margin-right: 0.5rem;
 }
 
+.interp-row.highlight span {
+    width: auto;
+}
+
 .interp-row.action {
     padding: 0.75rem;
     background: rgba(16, 185, 129, 0.1);
@@ -292,6 +362,10 @@ svg.ecg-grid {
     color: var(--secondary);
     width: auto;
     margin-right: 0.5rem;
+}
+
+.interp-row.action span {
+    width: auto;
 }
 
 /* Controls */
@@ -399,6 +473,11 @@ svg.ecg-grid {
     .interp-row strong {
         display: block;
         margin-bottom: 0.2rem;
+        width: 100%;
+    }
+    .interp-row span {
+        display: block;
+        width: 100%;
     }
     .controls {
         flex-wrap: wrap;

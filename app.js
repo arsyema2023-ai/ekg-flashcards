@@ -5,6 +5,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const startBtn = document.getElementById('start-btn');
     const backToInfoBtn = document.getElementById('back-to-info');
     
+    // Mode Buttons
+    const modeEkgBtn = document.getElementById('mode-ekg');
+    const modeKlinisBtn = document.getElementById('mode-klinis');
+    
     const flashcard = document.getElementById('flashcard');
     const prevBtn = document.getElementById('prev-btn');
     const nextBtn = document.getElementById('next-btn');
@@ -15,10 +19,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const totalCardsEl = document.getElementById('total-cards');
     const progressBar = document.getElementById('progress');
     const cardBadge = document.getElementById('card-badge');
+    
+    // Front elements
     const ecgDisplay = document.getElementById('ecg-display');
+    const clinicalDisplay = document.getElementById('clinical-display');
+    const clinicalImg = document.getElementById('clinical-img');
+    const imgFallback = document.getElementById('img-fallback');
     
     // Back elements
     const diagnosisTitle = document.getElementById('diagnosis-title');
+    
+    // EKG back elements
+    const interpEkgContainer = document.getElementById('interp-ekg');
     const interpIrama = document.getElementById('interp-irama');
     const interpRate = document.getElementById('interp-rate');
     const interpAxis = document.getElementById('interp-axis');
@@ -27,14 +39,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const interpClinical = document.getElementById('interp-clinical');
     const interpManagement = document.getElementById('interp-management');
 
+    // Klinis back elements
+    const interpKlinisContainer = document.getElementById('interp-klinis');
+    const interpCDeskripsi = document.getElementById('interp-c-deskripsi');
+    const interpCKorelasi = document.getElementById('interp-c-korelasi');
+    const interpCLab = document.getElementById('interp-c-lab');
+    const interpCManagement = document.getElementById('interp-c-management');
+
     // App State
+    let currentMode = 'ekg'; // 'ekg' or 'klinis'
     let deck = [];
     let currentIndex = 0;
     const ecgGenerator = new ECGGenerator('ecg-display');
 
     // Initialize App
     function initApp() {
-        totalCardsEl.textContent = ecgData.length;
+        // Toggle Listeners
+        modeEkgBtn.addEventListener('click', () => setMode('ekg'));
+        modeKlinisBtn.addEventListener('click', () => setMode('klinis'));
+
         startBtn.addEventListener('click', startFlashcards);
         backToInfoBtn.addEventListener('click', showInfographic);
         
@@ -46,6 +69,16 @@ document.addEventListener('DOMContentLoaded', () => {
             if(window.getSelection().toString().length === 0) {
                 toggleFlip();
             }
+        });
+        
+        // Handle Image Errors
+        clinicalImg.addEventListener('error', () => {
+            clinicalImg.style.display = 'none';
+            imgFallback.classList.remove('hidden');
+        });
+        clinicalImg.addEventListener('load', () => {
+            clinicalImg.style.display = 'block';
+            imgFallback.classList.add('hidden');
         });
         
         // Keyboard navigation
@@ -68,6 +101,25 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    function setMode(mode) {
+        if (mode === currentMode) return;
+        currentMode = mode;
+        
+        // Update Buttons
+        if (mode === 'ekg') {
+            modeEkgBtn.classList.add('active');
+            modeKlinisBtn.classList.remove('active');
+        } else {
+            modeKlinisBtn.classList.add('active');
+            modeEkgBtn.classList.remove('active');
+        }
+        
+        // If we are currently showing flashcards, restart them in the new mode
+        if (!flashcardSection.classList.contains('hidden')) {
+            startFlashcards();
+        }
+    }
+
     // Shuffle Array (Fisher-Yates)
     function shuffleArray(array) {
         let curId = array.length;
@@ -82,12 +134,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function startFlashcards() {
-        // Deep copy and shuffle deck
-        deck = shuffleArray([...ecgData]);
+        const sourceData = currentMode === 'ekg' ? ecgData : clinicalData;
+        deck = shuffleArray([...sourceData]);
         currentIndex = 0;
         
+        totalCardsEl.textContent = deck.length;
         infographicSection.classList.add('hidden');
         flashcardSection.classList.remove('hidden');
+        
+        // Reset flip state
+        flashcard.classList.remove('flipped');
         
         renderCard();
     }
@@ -109,7 +165,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 renderCard();
             }, 300); // Wait for flip animation before changing content
         } else {
-            // Re-shuffle and start over when done
             startFlashcards();
         }
     }
@@ -133,7 +188,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderCard() {
         const cardData = deck[currentIndex];
         
-        // Update UI
         updateProgressBar();
         
         // Update Badge
@@ -143,18 +197,47 @@ document.addEventListener('DOMContentLoaded', () => {
         if(cardData.priority === 'tambahan') badgeText = 'Tambahan';
         cardBadge.textContent = `Prioritas ${badgeText}`;
 
-        // Front: Render SVG
-        ecgDisplay.innerHTML = ecgGenerator.render(cardData.generatorConfig);
-
-        // Back: Render Interpretation
         diagnosisTitle.textContent = cardData.title;
-        interpIrama.textContent = cardData.interp.irama;
-        interpRate.textContent = cardData.interp.rate;
-        interpAxis.textContent = cardData.interp.axis;
-        interpIntervals.textContent = cardData.interp.intervals;
-        interpStt.textContent = cardData.interp.stt;
-        interpClinical.textContent = cardData.interp.clinical;
-        interpManagement.textContent = cardData.interp.management;
+
+        if (currentMode === 'ekg') {
+            // Front UI
+            ecgDisplay.classList.remove('hidden');
+            clinicalDisplay.classList.add('hidden');
+            // Back UI
+            interpEkgContainer.classList.remove('hidden');
+            interpKlinisContainer.classList.add('hidden');
+            
+            // Render ECG SVG
+            ecgDisplay.innerHTML = ecgGenerator.render(cardData.generatorConfig);
+            
+            // Render Text
+            interpIrama.textContent = cardData.interp.irama;
+            interpRate.textContent = cardData.interp.rate;
+            interpAxis.textContent = cardData.interp.axis;
+            interpIntervals.textContent = cardData.interp.intervals;
+            interpStt.textContent = cardData.interp.stt;
+            interpClinical.textContent = cardData.interp.clinical;
+            interpManagement.textContent = cardData.interp.management;
+            
+        } else {
+            // Front UI
+            ecgDisplay.classList.add('hidden');
+            clinicalDisplay.classList.remove('hidden');
+            // Back UI
+            interpEkgContainer.classList.add('hidden');
+            interpKlinisContainer.classList.remove('hidden');
+            
+            // Render Clinical Image
+            clinicalImg.style.display = 'block'; // reset in case it was hidden by error
+            imgFallback.classList.add('hidden');
+            clinicalImg.src = cardData.imageUrl;
+            
+            // Render Text
+            interpCDeskripsi.textContent = cardData.interp.deskripsi;
+            interpCKorelasi.textContent = cardData.interp.korelasi;
+            interpCLab.textContent = cardData.interp.lab;
+            interpCManagement.textContent = cardData.interp.management;
+        }
         
         // Update Buttons
         prevBtn.disabled = currentIndex === 0;
