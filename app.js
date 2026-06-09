@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Mode Buttons
     const modeEkgBtn = document.getElementById('mode-ekg');
     const modeKlinisBtn = document.getElementById('mode-klinis');
+    const modeRealBtn = document.getElementById('mode-real');
     
     const flashcard = document.getElementById('flashcard');
     const prevBtn = document.getElementById('prev-btn');
@@ -57,6 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Toggle Listeners
         modeEkgBtn.addEventListener('click', () => setMode('ekg'));
         modeKlinisBtn.addEventListener('click', () => setMode('klinis'));
+        modeRealBtn.addEventListener('click', () => setMode('real'));
 
         startBtn.addEventListener('click', startFlashcards);
         backToInfoBtn.addEventListener('click', showInfographic);
@@ -106,12 +108,16 @@ document.addEventListener('DOMContentLoaded', () => {
         currentMode = mode;
         
         // Update Buttons
+        modeEkgBtn.classList.remove('active');
+        modeKlinisBtn.classList.remove('active');
+        modeRealBtn.classList.remove('active');
+        
         if (mode === 'ekg') {
             modeEkgBtn.classList.add('active');
-            modeKlinisBtn.classList.remove('active');
-        } else {
+        } else if (mode === 'klinis') {
             modeKlinisBtn.classList.add('active');
-            modeEkgBtn.classList.remove('active');
+        } else if (mode === 'real') {
+            modeRealBtn.classList.add('active');
         }
         
         // If we are currently showing flashcards, restart them in the new mode
@@ -134,7 +140,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function startFlashcards() {
-        const sourceData = currentMode === 'ekg' ? ecgData : clinicalData;
+        let sourceData;
+        if (currentMode === 'ekg') sourceData = ecgData;
+        else if (currentMode === 'klinis') sourceData = clinicalData;
+        else sourceData = typeof realEcgData !== 'undefined' ? realEcgData : [];
+
         deck = shuffleArray([...sourceData]);
         currentIndex = 0;
         
@@ -219,16 +229,17 @@ document.addEventListener('DOMContentLoaded', () => {
             interpClinical.textContent = cardData.interp.clinical;
             interpManagement.textContent = cardData.interp.management;
             
-        } else {
+        } else if (currentMode === 'klinis') {
             // Front UI
             ecgDisplay.classList.add('hidden');
             clinicalDisplay.classList.remove('hidden');
+            clinicalImg.classList.remove('contain-img'); // cover for clinical photos
             // Back UI
             interpEkgContainer.classList.add('hidden');
             interpKlinisContainer.classList.remove('hidden');
             
             // Render Clinical Image
-            clinicalImg.style.display = 'block'; // reset in case it was hidden by error
+            clinicalImg.style.display = 'block'; 
             imgFallback.classList.add('hidden');
             clinicalImg.src = cardData.imageUrl;
             
@@ -237,6 +248,29 @@ document.addEventListener('DOMContentLoaded', () => {
             interpCKorelasi.textContent = cardData.interp.korelasi;
             interpCLab.textContent = cardData.interp.lab;
             interpCManagement.textContent = cardData.interp.management;
+            
+        } else if (currentMode === 'real') {
+            // Front UI
+            ecgDisplay.classList.add('hidden');
+            clinicalDisplay.classList.remove('hidden');
+            clinicalImg.classList.add('contain-img'); // contain for 12-lead ECG
+            // Back UI uses EKG layout
+            interpEkgContainer.classList.remove('hidden');
+            interpKlinisContainer.classList.add('hidden');
+            
+            // Render ECG Image
+            clinicalImg.style.display = 'block'; 
+            imgFallback.classList.add('hidden');
+            clinicalImg.src = cardData.imageUrl;
+            
+            // Render Text
+            interpIrama.textContent = cardData.interp.irama;
+            interpRate.textContent = cardData.interp.rate;
+            interpAxis.textContent = cardData.interp.axis;
+            interpIntervals.textContent = cardData.interp.intervals;
+            interpStt.textContent = cardData.interp.stt;
+            interpClinical.textContent = cardData.interp.clinical;
+            interpManagement.textContent = cardData.interp.management;
         }
         
         // Update Buttons

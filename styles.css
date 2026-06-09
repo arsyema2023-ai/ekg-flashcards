@@ -56,21 +56,24 @@ body {
 /* Mode Toggle */
 .mode-toggle {
     display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: center;
     background: rgba(15, 23, 42, 0.6);
     padding: 0.5rem;
     border-radius: 30px;
     border: 1px solid var(--card-border);
+    gap: 0.2rem;
 }
 
 .mode-btn {
     background: transparent;
     border: none;
     color: #94a3b8;
-    padding: 0.5rem 1.5rem;
+    padding: 0.5rem 1.2rem;
     border-radius: 20px;
     cursor: pointer;
     font-weight: 600;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     transition: all 0.3s ease;
 }
 
@@ -267,6 +270,12 @@ body {
     height: 100%;
     object-fit: cover;
     border-radius: 8px;
+    transition: object-fit 0.3s ease;
+}
+
+.clinical-img-container img.contain-img {
+    object-fit: contain;
+    background-color: #fff; /* useful for transparent ECG images */
 }
 
 .image-fallback {
