@@ -270,7 +270,7 @@ class ECGUltraGenerator {
     ctx.stroke();
 
     ctx.fillStyle = '#666';
-    ctx.font = '8px Arial';
+    ctx.font = '10px Arial';
     ctx.textAlign = 'left';
     ctx.fillText('1mV | 0.2s', calX, calY + calHeight + 12);
     ctx.fillText(`${this.speed_mm_s}mm/s ${this.gain_mm_mV}mm/mV`, calX, calY + calHeight + 22);
@@ -298,7 +298,7 @@ class ECGUltraGenerator {
     // Draw gain marker if lead has special gain
     if (pPerLead.gain !== 1) {
       ctx.fillStyle = '#888';
-      ctx.font = '8px Arial';
+      ctx.font = '10px Arial';
       ctx.fillText(`${pPerLead.gain}x`, x + 35, y + 5);
     }
 
@@ -790,26 +790,28 @@ class ECGUltraGenerator {
       });
     }
 
-    const labelScale = 0.6;
-    const fontSize = Math.round(8 * labelScale);
+    // Bigger, more visible PQRST labels
+    const fontSize = 13;
 
     for (const m of markers) {
       if (m.amp < 0.02) continue;
       const mx = x + m.time * pxPerSec;
-      const my = centerY - m.amp * this.px_per_mV * (lp.gain || 1) * 0.7;
+      const my = centerY - m.amp * this.px_per_mV * (lp.gain || 1) * 0.55;
       
-      if (mx > x + 10 && mx < x + this.leadWidth_px - 5) {
+      if (mx > x + 15 && mx < x + this.leadWidth_px - 10) {
         ctx.fillStyle = m.color;
         ctx.font = `bold ${fontSize}px Arial`;
         ctx.textAlign = 'center';
-        ctx.textBaseline = 'bottom';
-        if (my < centerY) {
-          ctx.textBaseline = 'bottom';
-          ctx.fillText(m.name, mx, my - 2);
-        } else {
-          ctx.textBaseline = 'top';
-          ctx.fillText(m.name, mx, my + 2);
-        }
+        // Draw label with white outline for readability
+        ctx.textBaseline = my < centerY ? 'bottom' : 'top';
+        const labelY = my < centerY ? my - 3 : my + 3;
+        // Outline
+        ctx.strokeStyle = 'white';
+        ctx.lineWidth = 3;
+        ctx.lineJoin = 'round';
+        ctx.strokeText(m.name, mx, labelY);
+        // Fill
+        ctx.fillText(m.name, mx, labelY);
       }
     }
   }
@@ -890,13 +892,13 @@ class ECGUltraGenerator {
     }
 
     ctx.textBaseline = 'middle';
-    ctx.font = '9px Arial';
+    ctx.font = '10px Arial';
 
     items.forEach((item, i) => {
       const iy = legendY + 8 + i * lineH;
       
       ctx.fillStyle = item.color;
-      ctx.fillRect(legendX + 6, iy - boxSize / 2, boxSize, boxSize);
+      ctx.fillRect(legendX + 6, iy - boxSize / 2, boxSize + 2, boxSize + 2);
       
       ctx.fillStyle = this.colors.legendText;
       ctx.textAlign = 'left';
