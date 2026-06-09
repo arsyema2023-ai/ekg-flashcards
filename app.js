@@ -6,9 +6,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const backToInfoBtn = document.getElementById('back-to-info');
     
     // Mode Buttons
-    const modeEkgBtn = document.getElementById('mode-ekg');
-    const modeKlinisBtn = document.getElementById('mode-klinis');
-    const modeRealBtn = document.getElementById('mode-real');
+    const modeEkgBtn = document.getElementById('btn-mode-ekg');
+    const modeKlinisBtn = document.getElementById('btn-mode-klinis');
+    const modeRealBtn = document.getElementById('btn-mode-real');
     
     const flashcard = document.getElementById('flashcard');
     const prevBtn = document.getElementById('prev-btn');
