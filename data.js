@@ -4,16 +4,16 @@ const ecgData = [
         "priority": "prioritas-menengah",
         "title": "Normal Sinus Rhythm",
         "generatorConfig": {
-            "heartRate": 67,
+            "heartRate": 76,
             "leadOverrides": {}
         },
         "interp": {
             "irama": "Sinus",
-            "rate": "67 x/menit",
+            "rate": "76 x/menit",
             "axis": "Normal",
             "intervals": "PR 0.16s, QRS 0.08s, QT normal",
             "stt": "Isoelektrik",
-            "clinical": "Pasien Laki-laki 30 tahun, temuan sesuai EKG.",
+            "clinical": "Pasien Perempuan 45 tahun, temuan sesuai EKG.",
             "management": "Edukasi kesehatan. Pasien stabil."
         }
     },
@@ -22,7 +22,7 @@ const ecgData = [
         "priority": "prioritas-tinggi",
         "title": "STEMI Anteroseptal",
         "generatorConfig": {
-            "heartRate": 87,
+            "heartRate": 84,
             "leadOverrides": {
                 "V1": {
                     "stElevMv": 0.3,
@@ -47,7 +47,7 @@ const ecgData = [
         },
         "interp": {
             "irama": "Sinus",
-            "rate": "87 x/menit",
+            "rate": "84 x/menit",
             "axis": "Normal",
             "intervals": "PR 0.14s, QRS 0.08s",
             "stt": "ST Elevasi di V1-V4",
@@ -60,7 +60,7 @@ const ecgData = [
         "priority": "prioritas-tinggi",
         "title": "STEMI Inferior",
         "generatorConfig": {
-            "heartRate": 65,
+            "heartRate": 63,
             "leadOverrides": {
                 "II": {
                     "stElevMv": 0.3,
@@ -86,11 +86,11 @@ const ecgData = [
         },
         "interp": {
             "irama": "Sinus",
-            "rate": "65 x/menit",
-            "axis": "RAD",
+            "rate": "63 x/menit",
+            "axis": "Normal",
             "intervals": "PR 0.16s",
             "stt": "ST Elevasi II, III, aVF, resiprokal di I, aVL",
-            "clinical": "Pasien Laki-laki 70 tahun, temuan sesuai EKG.",
+            "clinical": "Pasien Laki-laki 30 tahun, temuan sesuai EKG.",
             "management": "MONACO. Hindari Nitrat jika curiga infark ventrikel kanan."
         }
     },
@@ -99,7 +99,7 @@ const ecgData = [
         "priority": "prioritas-tinggi",
         "title": "Atrial Fibrillation (RVR)",
         "generatorConfig": {
-            "heartRate": 142,
+            "heartRate": 139,
             "pWave": false,
             "fibrillation": true,
             "irregular": true,
@@ -111,11 +111,11 @@ const ecgData = [
         },
         "interp": {
             "irama": "Irregularly irregular, tidak ada gelombang P",
-            "rate": "142 x/menit",
-            "axis": "Normal",
+            "rate": "139 x/menit",
+            "axis": "RAD",
             "intervals": "QRS sempit",
             "stt": "Depresi ST sekunder",
-            "clinical": "Pasien Perempuan 45 tahun, temuan sesuai EKG.",
+            "clinical": "Pasien Laki-laki 70 tahun, temuan sesuai EKG.",
             "management": "Rate control. Pertimbangkan kardioversi jika tidak stabil."
         }
     },
@@ -124,7 +124,7 @@ const ecgData = [
         "priority": "prioritas-menengah",
         "title": "Atrial Flutter",
         "generatorConfig": {
-            "heartRate": 151,
+            "heartRate": 153,
             "pWave": false,
             "flutter": true,
             "irregular": false,
@@ -142,11 +142,11 @@ const ecgData = [
         },
         "interp": {
             "irama": "Saw-tooth di inferior leads",
-            "rate": "151 x/menit",
-            "axis": "Normal",
+            "rate": "153 x/menit",
+            "axis": "RAD",
             "intervals": "QRS sempit",
             "stt": "Sulit dinilai",
-            "clinical": "Pasien Perempuan 45 tahun, temuan sesuai EKG.",
+            "clinical": "Pasien Laki-laki 70 tahun, temuan sesuai EKG.",
             "management": "Mirip AF."
         }
     },
@@ -155,7 +155,7 @@ const ecgData = [
         "priority": "prioritas-tinggi",
         "title": "Ventricular Tachycardia (VT)",
         "generatorConfig": {
-            "heartRate": 183,
+            "heartRate": 180,
             "pWave": false,
             "qrsMs": 140,
             "lbbb": true,
@@ -163,11 +163,11 @@ const ecgData = [
         },
         "interp": {
             "irama": "Reguler, dari ventrikel",
-            "rate": "183 x/menit",
-            "axis": "LAD",
+            "rate": "180 x/menit",
+            "axis": "Normal",
             "intervals": "QRS LEBAR",
             "stt": "Arah berlawanan dengan QRS",
-            "clinical": "Pasien Perempuan 65 tahun, temuan sesuai EKG.",
+            "clinical": "Pasien Laki-laki 30 tahun, temuan sesuai EKG.",
             "management": "Jika nadi (-): RJP & Defibrilasi."
         }
     },
@@ -176,18 +176,18 @@ const ecgData = [
         "priority": "prioritas-tinggi",
         "title": "Ventricular Fibrillation (VF)",
         "generatorConfig": {
-            "heartRate": 253,
+            "heartRate": 251,
             "pWave": false,
             "vf": true,
             "leadOverrides": {}
         },
         "interp": {
             "irama": "Kacau (Chaotic)",
-            "rate": "253 x/menit",
-            "axis": "Normal",
+            "rate": "251 x/menit",
+            "axis": "LAD",
             "intervals": "Tidak dapat dinilai",
             "stt": "Tidak dapat dinilai",
-            "clinical": "Pasien Laki-laki 30 tahun, temuan sesuai EKG.",
+            "clinical": "Pasien Perempuan 65 tahun, temuan sesuai EKG.",
             "management": "Code Blue! RJP segera + Defibrilasi."
         }
     },
@@ -196,18 +196,18 @@ const ecgData = [
         "priority": "prioritas-menengah",
         "title": "Left Bundle Branch Block (LBBB)",
         "generatorConfig": {
-            "heartRate": 72,
+            "heartRate": 71,
             "qrsMs": 130,
             "lbbb": true,
             "leadOverrides": {}
         },
         "interp": {
             "irama": "Sinus",
-            "rate": "72 x/menit",
+            "rate": "71 x/menit",
             "axis": "Normal",
             "intervals": "QRS LEBAR > 120ms",
             "stt": "R lebar/notched di V5, V6, I, aVL",
-            "clinical": "Pasien Perempuan 45 tahun, temuan sesuai EKG.",
+            "clinical": "Pasien Laki-laki 50 tahun, temuan sesuai EKG.",
             "management": "Jika baru pada pasien nyeri dada, anggap STEMI ekivalen."
         }
     },
@@ -216,18 +216,18 @@ const ecgData = [
         "priority": "prioritas-menengah",
         "title": "Right Bundle Branch Block (RBBB)",
         "generatorConfig": {
-            "heartRate": 72,
+            "heartRate": 71,
             "qrsMs": 120,
             "rbbb": true,
             "leadOverrides": {}
         },
         "interp": {
             "irama": "Sinus",
-            "rate": "72 x/menit",
-            "axis": "LAD",
+            "rate": "71 x/menit",
+            "axis": "Normal",
             "intervals": "QRS LEBAR > 120ms",
             "stt": "Pola rSR' di V1-V2, S lebar di I, V6",
-            "clinical": "Pasien Perempuan 65 tahun, temuan sesuai EKG.",
+            "clinical": "Pasien Perempuan 45 tahun, temuan sesuai EKG.",
             "management": "Observasi. Jika sesak akut: curiga Emboli Paru."
         }
     },
@@ -236,18 +236,18 @@ const ecgData = [
         "priority": "prioritas-menengah",
         "title": "Hiperkalemia",
         "generatorConfig": {
-            "heartRate": 54,
+            "heartRate": 53,
             "qrsMs": 110,
             "hyperkalemia": true,
             "leadOverrides": {}
         },
         "interp": {
             "irama": "Lambat",
-            "rate": "54 x/menit",
-            "axis": "Normal",
+            "rate": "53 x/menit",
+            "axis": "RAD",
             "intervals": "PR memanjang, QRS melebar",
             "stt": "Tall Tented T-Waves",
-            "clinical": "Pasien Laki-laki 30 tahun, temuan sesuai EKG.",
+            "clinical": "Pasien Laki-laki 70 tahun, temuan sesuai EKG.",
             "management": "Emergensi. Kalsium glukonas IV."
         }
     },
@@ -256,16 +256,16 @@ const ecgData = [
         "priority": "prioritas-menengah",
         "title": "Normal Sinus Rhythm",
         "generatorConfig": {
-            "heartRate": 77,
+            "heartRate": 73,
             "leadOverrides": {}
         },
         "interp": {
             "irama": "Sinus",
-            "rate": "77 x/menit",
-            "axis": "LAD",
+            "rate": "73 x/menit",
+            "axis": "Normal",
             "intervals": "PR 0.16s, QRS 0.08s, QT normal",
             "stt": "Isoelektrik",
-            "clinical": "Pasien Perempuan 65 tahun, temuan sesuai EKG.",
+            "clinical": "Pasien Laki-laki 30 tahun, temuan sesuai EKG.",
             "management": "Edukasi kesehatan. Pasien stabil."
         }
     },
@@ -300,10 +300,10 @@ const ecgData = [
         "interp": {
             "irama": "Sinus",
             "rate": "90 x/menit",
-            "axis": "RAD",
+            "axis": "Normal",
             "intervals": "PR 0.14s, QRS 0.08s",
             "stt": "ST Elevasi di V1-V4",
-            "clinical": "Pasien Laki-laki 70 tahun, temuan sesuai EKG.",
+            "clinical": "Pasien Laki-laki 50 tahun, temuan sesuai EKG.",
             "management": "Oksigen, Aspirin, Clopidogrel, Rujuk PCI segera."
         }
     },
@@ -312,7 +312,7 @@ const ecgData = [
         "priority": "prioritas-tinggi",
         "title": "STEMI Inferior",
         "generatorConfig": {
-            "heartRate": 69,
+            "heartRate": 60,
             "leadOverrides": {
                 "II": {
                     "stElevMv": 0.3,
@@ -338,7 +338,7 @@ const ecgData = [
         },
         "interp": {
             "irama": "Sinus",
-            "rate": "69 x/menit",
+            "rate": "60 x/menit",
             "axis": "Normal",
             "intervals": "PR 0.16s",
             "stt": "ST Elevasi II, III, aVF, resiprokal di I, aVL",
@@ -351,7 +351,7 @@ const ecgData = [
         "priority": "prioritas-tinggi",
         "title": "Atrial Fibrillation (RVR)",
         "generatorConfig": {
-            "heartRate": 140,
+            "heartRate": 145,
             "pWave": false,
             "fibrillation": true,
             "irregular": true,
@@ -363,11 +363,11 @@ const ecgData = [
         },
         "interp": {
             "irama": "Irregularly irregular, tidak ada gelombang P",
-            "rate": "140 x/menit",
+            "rate": "145 x/menit",
             "axis": "Normal",
             "intervals": "QRS sempit",
             "stt": "Depresi ST sekunder",
-            "clinical": "Pasien Laki-laki 50 tahun, temuan sesuai EKG.",
+            "clinical": "Pasien Perempuan 45 tahun, temuan sesuai EKG.",
             "management": "Rate control. Pertimbangkan kardioversi jika tidak stabil."
         }
     },
@@ -395,10 +395,10 @@ const ecgData = [
         "interp": {
             "irama": "Saw-tooth di inferior leads",
             "rate": "149 x/menit",
-            "axis": "LAD",
+            "axis": "Normal",
             "intervals": "QRS sempit",
             "stt": "Sulit dinilai",
-            "clinical": "Pasien Perempuan 65 tahun, temuan sesuai EKG.",
+            "clinical": "Pasien Laki-laki 30 tahun, temuan sesuai EKG.",
             "management": "Mirip AF."
         }
     },
@@ -407,7 +407,7 @@ const ecgData = [
         "priority": "prioritas-tinggi",
         "title": "Ventricular Tachycardia (VT)",
         "generatorConfig": {
-            "heartRate": 176,
+            "heartRate": 185,
             "pWave": false,
             "qrsMs": 140,
             "lbbb": true,
@@ -415,11 +415,11 @@ const ecgData = [
         },
         "interp": {
             "irama": "Reguler, dari ventrikel",
-            "rate": "176 x/menit",
-            "axis": "LAD",
+            "rate": "185 x/menit",
+            "axis": "Normal",
             "intervals": "QRS LEBAR",
             "stt": "Arah berlawanan dengan QRS",
-            "clinical": "Pasien Perempuan 65 tahun, temuan sesuai EKG.",
+            "clinical": "Pasien Laki-laki 50 tahun, temuan sesuai EKG.",
             "management": "Jika nadi (-): RJP & Defibrilasi."
         }
     },
@@ -428,18 +428,18 @@ const ecgData = [
         "priority": "prioritas-tinggi",
         "title": "Ventricular Fibrillation (VF)",
         "generatorConfig": {
-            "heartRate": 252,
+            "heartRate": 247,
             "pWave": false,
             "vf": true,
             "leadOverrides": {}
         },
         "interp": {
             "irama": "Kacau (Chaotic)",
-            "rate": "252 x/menit",
-            "axis": "Normal",
+            "rate": "247 x/menit",
+            "axis": "RAD",
             "intervals": "Tidak dapat dinilai",
             "stt": "Tidak dapat dinilai",
-            "clinical": "Pasien Laki-laki 50 tahun, temuan sesuai EKG.",
+            "clinical": "Pasien Laki-laki 70 tahun, temuan sesuai EKG.",
             "management": "Code Blue! RJP segera + Defibrilasi."
         }
     },
@@ -448,18 +448,18 @@ const ecgData = [
         "priority": "prioritas-menengah",
         "title": "Left Bundle Branch Block (LBBB)",
         "generatorConfig": {
-            "heartRate": 74,
+            "heartRate": 72,
             "qrsMs": 130,
             "lbbb": true,
             "leadOverrides": {}
         },
         "interp": {
             "irama": "Sinus",
-            "rate": "74 x/menit",
-            "axis": "LAD",
+            "rate": "72 x/menit",
+            "axis": "Normal",
             "intervals": "QRS LEBAR > 120ms",
             "stt": "R lebar/notched di V5, V6, I, aVL",
-            "clinical": "Pasien Perempuan 65 tahun, temuan sesuai EKG.",
+            "clinical": "Pasien Laki-laki 30 tahun, temuan sesuai EKG.",
             "management": "Jika baru pada pasien nyeri dada, anggap STEMI ekivalen."
         }
     },
@@ -468,14 +468,14 @@ const ecgData = [
         "priority": "prioritas-menengah",
         "title": "Right Bundle Branch Block (RBBB)",
         "generatorConfig": {
-            "heartRate": 74,
+            "heartRate": 71,
             "qrsMs": 120,
             "rbbb": true,
             "leadOverrides": {}
         },
         "interp": {
             "irama": "Sinus",
-            "rate": "74 x/menit",
+            "rate": "71 x/menit",
             "axis": "Normal",
             "intervals": "QRS LEBAR > 120ms",
             "stt": "Pola rSR' di V1-V2, S lebar di I, V6",
@@ -496,10 +496,10 @@ const ecgData = [
         "interp": {
             "irama": "Lambat",
             "rate": "57 x/menit",
-            "axis": "RAD",
+            "axis": "Normal",
             "intervals": "PR memanjang, QRS melebar",
             "stt": "Tall Tented T-Waves",
-            "clinical": "Pasien Laki-laki 70 tahun, temuan sesuai EKG.",
+            "clinical": "Pasien Laki-laki 50 tahun, temuan sesuai EKG.",
             "management": "Emergensi. Kalsium glukonas IV."
         }
     },
@@ -508,12 +508,12 @@ const ecgData = [
         "priority": "prioritas-menengah",
         "title": "Normal Sinus Rhythm",
         "generatorConfig": {
-            "heartRate": 71,
+            "heartRate": 67,
             "leadOverrides": {}
         },
         "interp": {
             "irama": "Sinus",
-            "rate": "71 x/menit",
+            "rate": "67 x/menit",
             "axis": "Normal",
             "intervals": "PR 0.16s, QRS 0.08s, QT normal",
             "stt": "Isoelektrik",
@@ -526,7 +526,7 @@ const ecgData = [
         "priority": "prioritas-tinggi",
         "title": "STEMI Anteroseptal",
         "generatorConfig": {
-            "heartRate": 82,
+            "heartRate": 90,
             "leadOverrides": {
                 "V1": {
                     "stElevMv": 0.3,
@@ -551,11 +551,11 @@ const ecgData = [
         },
         "interp": {
             "irama": "Sinus",
-            "rate": "82 x/menit",
-            "axis": "Normal",
+            "rate": "90 x/menit",
+            "axis": "LAD",
             "intervals": "PR 0.14s, QRS 0.08s",
             "stt": "ST Elevasi di V1-V4",
-            "clinical": "Pasien Laki-laki 30 tahun, temuan sesuai EKG.",
+            "clinical": "Pasien Perempuan 65 tahun, temuan sesuai EKG.",
             "management": "Oksigen, Aspirin, Clopidogrel, Rujuk PCI segera."
         }
     },
@@ -591,10 +591,10 @@ const ecgData = [
         "interp": {
             "irama": "Sinus",
             "rate": "64 x/menit",
-            "axis": "Normal",
+            "axis": "RAD",
             "intervals": "PR 0.16s",
             "stt": "ST Elevasi II, III, aVF, resiprokal di I, aVL",
-            "clinical": "Pasien Laki-laki 30 tahun, temuan sesuai EKG.",
+            "clinical": "Pasien Laki-laki 70 tahun, temuan sesuai EKG.",
             "management": "MONACO. Hindari Nitrat jika curiga infark ventrikel kanan."
         }
     },
@@ -603,7 +603,7 @@ const ecgData = [
         "priority": "prioritas-tinggi",
         "title": "Atrial Fibrillation (RVR)",
         "generatorConfig": {
-            "heartRate": 137,
+            "heartRate": 144,
             "pWave": false,
             "fibrillation": true,
             "irregular": true,
@@ -615,11 +615,11 @@ const ecgData = [
         },
         "interp": {
             "irama": "Irregularly irregular, tidak ada gelombang P",
-            "rate": "137 x/menit",
-            "axis": "LAD",
+            "rate": "144 x/menit",
+            "axis": "Normal",
             "intervals": "QRS sempit",
             "stt": "Depresi ST sekunder",
-            "clinical": "Pasien Perempuan 65 tahun, temuan sesuai EKG.",
+            "clinical": "Pasien Laki-laki 50 tahun, temuan sesuai EKG.",
             "management": "Rate control. Pertimbangkan kardioversi jika tidak stabil."
         }
     },
@@ -628,7 +628,7 @@ const ecgData = [
         "priority": "prioritas-menengah",
         "title": "Atrial Flutter",
         "generatorConfig": {
-            "heartRate": 155,
+            "heartRate": 152,
             "pWave": false,
             "flutter": true,
             "irregular": false,
@@ -646,11 +646,11 @@ const ecgData = [
         },
         "interp": {
             "irama": "Saw-tooth di inferior leads",
-            "rate": "155 x/menit",
-            "axis": "LAD",
+            "rate": "152 x/menit",
+            "axis": "RAD",
             "intervals": "QRS sempit",
             "stt": "Sulit dinilai",
-            "clinical": "Pasien Perempuan 65 tahun, temuan sesuai EKG.",
+            "clinical": "Pasien Laki-laki 70 tahun, temuan sesuai EKG.",
             "management": "Mirip AF."
         }
     }
