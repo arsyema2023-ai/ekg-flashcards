@@ -25,9 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Front elements
     const ecgDisplay = document.getElementById('ecg-display');
-    const clinicalDisplay = document.getElementById('clinical-display');
-    const clinicalImg = document.getElementById('clinical-img');
-    const imgFallback = document.getElementById('img-fallback');
+    // Removed clinical image variables
     
     // Back elements
     const diagnosisTitle = document.getElementById('diagnosis-title');
@@ -70,18 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 toggleFlip();
             }
         });
-        
-        // Handle Image Errors
-        clinicalImg.addEventListener('error', () => {
-            clinicalImg.style.display = 'none';
-            imgFallback.classList.remove('hidden');
-        });
-        clinicalImg.addEventListener('load', () => {
-            clinicalImg.style.display = 'block';
-            imgFallback.classList.add('hidden');
-        });
-        
-        // Keyboard navigation
+        // Handle Keyboard navigation
         document.addEventListener('keydown', (e) => {
             if (!flashcardSection.classList.contains('hidden')) {
                 if (e.key === 'ArrowRight' || e.key === ' ') {
@@ -224,12 +211,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Front UI
         ecgDisplay.classList.remove('hidden');
-        if(clinicalDisplay) clinicalDisplay.classList.add('hidden');
         hintContainer.classList.remove('hidden');
         
         // Back UI
         interpEkgContainer.classList.remove('hidden');
-        if(interpKlinisContainer) interpKlinisContainer.classList.add('hidden');
         
         // Reset hint label
         if (cardData.generatorConfig) {
