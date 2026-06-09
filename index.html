@@ -3,137 +3,355 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OSCE EKG Flashcards</title>
-    <link rel="stylesheet" href="styles.css?v=3">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Ultra EKG Flashcards — OSCE Dokter Umum (SKDI 2019)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="app-container">
+        <!-- Header -->
         <header class="app-header">
-            <h1>OSCE EKG Master</h1>
-            <p>25 Kasus Wajib Dokter Umum (SKDI/SNPPDI 2019)</p>
+            <div class="header-content">
+                <h1>⚡ EKG <span>UltraFlash</span></h1>
+                <p class="subtitle">Mastery-based Learning untuk OSCE — <strong>SKDI Tingkat 4A/4B/3A</strong></p>
+            </div>
             
-            <div class="mode-selector">
-                <button class="btn btn-outline active" id="btn-mode-ekg" data-mode="ekg">Set 1 (25 EKG)</button>
-                <button class="btn btn-outline" id="btn-mode-klinis" data-mode="klinis">Set 2 (10 EKG)</button>
-                <button class="btn btn-outline" id="btn-mode-real" data-mode="real">Set 3 (25 EKG)</button>
+            <!-- Mode Selector -->
+            <div class="mode-selector glass" id="mode-selector">
+                <button class="mode-btn active" data-mode="mode1" id="btn-mode1">
+                    <span class="mode-icon">📋</span>
+                    <span class="mode-label">Mode 1</span>
+                    <span class="mode-desc">Diagnosis EKG</span>
+                </button>
+                <button class="mode-btn" data-mode="mode2" id="btn-mode2">
+                    <span class="mode-icon">🩺</span>
+                    <span class="mode-label">Mode 2</span>
+                    <span class="mode-desc">Diagnosis Klinis</span>
+                </button>
+                <button class="mode-btn" data-mode="mode3" id="btn-mode3">
+                    <span class="mode-icon">🏥</span>
+                    <span class="mode-label">Mode 3</span>
+                    <span class="mode-desc">Komprehensif</span>
+                </button>
             </div>
         </header>
 
+        <!-- ==================== INFOGRAPHIC SECTION ==================== -->
         <section class="infographic-section" id="infographic">
-            <div class="infographic-card glass">
-                <h2>📊 Cara Membaca EKG Dasar</h2>
-                <div class="info-grid">
-                    <div class="info-item">
-                        <h3>1. Irama</h3>
-                        <p><strong>Sinus:</strong> Gelombang P selalu diikuti QRS. P positif di II, negatif di aVR.</p>
-                        <p><strong>Non-Sinus:</strong> P tidak ada, bentuk P berubah, atau tidak diikuti QRS.</p>
+            <!-- Quick Reference ECG Interpretation -->
+            <div class="info-card glass">
+                <h2>📊 <span>Cara Cepat Membaca EKG dalam 6 Langkah</span></h2>
+                <p class="info-sub">Gunakan urutan ini untuk setiap soal OSCE EKG</p>
+                
+                <div class="steps-grid">
+                    <div class="step-card">
+                        <div class="step-number">1</div>
+                        <h3>Irama</h3>
+                        <p>Ada P sebelum setiap QRS? P tegak di II?</p>
+                        <span class="step-tag sinus">Sinus</span>
+                        <span class="step-tag nonsinus">Non-Sinus</span>
                     </div>
-                    <div class="info-item">
-                        <h3>2. Frekuensi (Rate)</h3>
-                        <p><strong>Reguler:</strong> 300 / jumlah kotak besar (R-R)</p>
-                        <p><strong>Ireguler:</strong> Jumlah QRS dalam 30 kotak besar x 10</p>
-                        <p>Normal: 60 - 100 x/menit</p>
+                    <div class="step-card">
+                        <div class="step-number">2</div>
+                        <h3>Frekuensi (HR)</h3>
+                        <p><strong>Reguler:</strong> 300 ÷ kotak besar R-R<br>
+                        <strong>Irreguler:</strong> QRS × 6 (dalam 30 kotak besar)</p>
+                        <span class="step-tag rate">60-100 Normal</span>
                     </div>
-                    <div class="info-item">
-                        <h3>3. Aksis</h3>
-                        <p>Lead I dan aVF: <br>+ dan + = Normal<br>+ dan - = LAD<br>- dan + = RAD</p>
+                    <div class="step-card">
+                        <div class="step-number">3</div>
+                        <h3>Aksis</h3>
+                        <p>Lead I + aVF:<br>
+                        <span class="green">+ +</span> = Normal &nbsp; <span class="red">+ −</span> = LAD<br>
+                        <span class="red">− +</span> = RAD &nbsp; <span class="red">− −</span> = Extreme</p>
                     </div>
-                    <div class="info-item">
-                        <h3>4. Gelombang P & PR Interval</h3>
-                        <p><strong>P:</strong> Normal &lt; 3 kotak kecil lebar & tinggi.</p>
-                        <p><strong>PR:</strong> 0.12 - 0.20 dtk (3-5 kotak kecil).</p>
+                    <div class="step-card">
+                        <div class="step-number">4</div>
+                        <h3>Interval</h3>
+                        <p><strong>PR:</strong> 0.12-0.20s (3-5 kotak kecil)<br>
+                        <strong>QRS:</strong> &lt; 0.12s (&lt; 3 kotak kecil)<br>
+                        <strong>QT:</strong> &lt; 1/2 R-R (Bazett)</p>
                     </div>
-                    <div class="info-item">
-                        <h3>5. Kompleks QRS</h3>
-                        <p>Normal: &lt; 0.12 dtk (&lt; 3 kotak kecil).</p>
-                        <p>Lebar: Curiga asalnya dari ventrikel atau ada blok cabang (BBB).</p>
+                    <div class="step-card">
+                        <div class="step-number">5</div>
+                        <h3>Segmen ST & T</h3>
+                        <p><span class="red">↑ ST Elevasi</span> = STEMI/Perikarditis<br>
+                        <span class="blue">↓ ST Depresi</span> = Iskemia/NSTEMI<br>
+                        <span class="orange">T Inversi</span> = Iskemia</p>
                     </div>
-                    <div class="info-item">
-                        <h3>6. Segmen ST & Gelombang T</h3>
-                        <p><strong>ST Elevasi:</strong> Tanda infark (STEMI) atau perikarditis.</p>
-                        <p><strong>ST Depresi / T Inversi:</strong> Tanda iskemia (NSTEMI / UAP).</p>
+                    <div class="step-card">
+                        <div class="step-number">6</div>
+                        <h3>Diagnosis & Tindakan</h3>
+                        <p>Interpretasi → Korelasi Klinis → Tatalaksana Awal → Rujuk</p>
                     </div>
                 </div>
-                <button class="btn start-btn" id="start-btn">Mulai Latihan Flashcard</button>
+
+                <!-- ECG Interval Reference Table -->
+                <div class="ref-table-wrapper">
+                    <h3>📐 Tabel Referensi Cepat</h3>
+                    <div class="ref-grid">
+                        <div class="ref-item">
+                            <span class="ref-label">1 kotak kecil (1mm)</span>
+                            <span class="ref-value">0.04s | 0.1mV</span>
+                        </div>
+                        <div class="ref-item">
+                            <span class="ref-label">1 kotak besar (5mm)</span>
+                            <span class="ref-value">0.20s | 0.5mV</span>
+                        </div>
+                        <div class="ref-item">
+                            <span class="ref-label">PR Interval Normal</span>
+                            <span class="ref-value">3-5 kk (0.12-0.20s)</span>
+                        </div>
+                        <div class="ref-item">
+                            <span class="ref-label">QRS Normal</span>
+                            <span class="ref-value">&lt; 3 kk (&lt; 0.12s)</span>
+                        </div>
+                        <div class="ref-item">
+                            <span class="ref-label">QTc (Bazett)</span>
+                            <span class="ref-value">&lt; 0.44s (pria) / &lt; 0.46s (wanita)</span>
+                        </div>
+                        <div class="ref-item">
+                            <span class="ref-label">HR Cepat</span>
+                            <span class="ref-value">300 ÷ R-R (kotak besar)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Diagnosis Quick Reference -->
+            <div class="info-card glass">
+                <h2>🏆 <span>Daftar Prioritas EKG OSCE — SKDI 4A/4B</span></h2>
+                <div class="diag-grid">
+                    <div class="diag-col">
+                        <h4>🔴 Prioritas Tertinggi (4A)</h4>
+                        <ul>
+                            <li>STEMI (Anterior, Inferior, Lateral)</li>
+                            <li>NSTEMI / Unstable Angina</li>
+                            <li>VT / VF / Asystole (Henti Jantung)</li>
+                            <li>SVT / AF dengan RVR</li>
+                            <li>AV Block Derajat 3 (CHB)</li>
+                            <li>Hiperkalemia berat</li>
+                            <li>Torsades de Pointes</li>
+                        </ul>
+                    </div>
+                    <div class="diag-col">
+                        <h4>🟡 Prioritas Tinggi (4B)</h4>
+                        <ul>
+                            <li>AV Block Derajat 1 & 2</li>
+                            <li>RBBB / LBBB</li>
+                            <li>Atrial Flutter</li>
+                            <li>Sinus Bradikardia simptomatik</li>
+                            <li>Sinus Takikardia</li>
+                            <li>PVC (VES) sering / bigemini</li>
+                            <li>Perikarditis Akut</li>
+                        </ul>
+                    </div>
+                    <div class="diag-col">
+                        <h4>🟢 Prioritas Tambahan (3A)</h4>
+                        <ul>
+                            <li>LVH / RVH</li>
+                            <li>WPW Pattern</li>
+                            <li>Hipokalemia</li>
+                            <li>PE Pattern (S1Q3T3)</li>
+                            <li>Digoxin Toxicity</li>
+                            <li>Early Repolarization</li>
+                            <li>Long QT Syndrome</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="start-section">
+                <button class="btn-start" id="start-btn">
+                    <span class="btn-icon">🎯</span>
+                    <span class="btn-text">Mulai Latihan Flashcard</span>
+                    <span class="btn-sub">75 kasus • diacak setiap sesi • 3 mode</span>
+                </button>
+                <p class="start-hint">Gunakan arrow key ⬅ ➡ untuk navigasi, ⬆⬇ atau klik untuk membalik</p>
             </div>
         </section>
 
-        <section class="flashcard-section hidden" id="flashcard-container">
-            <div class="progress-bar">
-                <div class="progress" id="progress"></div>
+        <!-- ==================== FLASHCARD SECTION ==================== -->
+        <section class="flashcard-section hidden" id="flashcard-section">
+            <!-- Progress -->
+            <div class="progress-compact">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <div class="progress-info">
+                    <span>Kartu <strong id="current-num">1</strong> / <span id="total-num">25</span></span>
+                    <span class="mode-indicator" id="mode-indicator">Mode 1: Diagnosis EKG</span>
+                </div>
             </div>
-            <div class="status-text">
-                Kartu <span id="current-index">1</span> dari <span id="total-cards">25</span>
-            </div>
-            
-            <div class="flashcard-wrapper">
+
+            <!-- Flashcard -->
+            <div class="flashcard-wrapper" id="flashcard-wrapper">
                 <div class="flashcard" id="flashcard">
-                    <!-- Front side: SVG ECG -->
-                    <div class="flashcard-face front">
-                        <div class="card-header">
-                            <span class="badge" id="card-badge">Prioritas</span>
+                    <!-- FRONT SIDE -->
+                    <div class="card-front glass" id="card-front">
+                        <div class="card-top-bar">
+                            <span class="badge" id="badge">Prioritas Tinggi</span>
+                            <span class="card-number" id="card-number">#01</span>
                         </div>
-                        <!-- Front: Display -->
-                        <div class="card-front">
-                            <div class="display-container" id="ecg-display" style="width: 100%; overflow-x: auto;">
-                                <!-- SVG / Canvas -->
-                            </div>
-                            <div class="hint-container" id="hint-container" style="text-align: center; margin-top: 10px;">
-                                <button class="btn btn-secondary" id="btn-hint">Tampilkan Petunjuk Gelombang</button>
-                            </div>
+                        <div class="card-title-bar" id="card-title-bar">
+                            <h3 id="card-title">EKG Normal</h3>
                         </div>
+                        <div class="ecg-container" id="ecg-container">
+                            <canvas id="ecg-canvas"></canvas>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn-hint" id="btn-hint">🔍 Buka Hint — Tampilkan Highlight & Legenda</button>
+                        </div>
+                        <div class="flip-hint">Klik kartu atau tekan ⬆ untuk membalik</div>
                     </div>
-                    
-                    <!-- Back side: Interpretation -->
-                    <div class="flashcard-face back">
-                        <div class="card-header back-header">
-                            <h2 id="diagnosis-title">Diagnosis</h2>
+
+                    <!-- BACK SIDE -->
+                    <div class="card-back glass" id="card-back">
+                        <div class="back-header">
+                            <h2 id="back-title">Diagnosis EKG</h2>
+                            <button class="btn-back-info" id="btn-back-info">Kembali</button>
                         </div>
-                        <div class="interpretation-content" id="interp-ekg">
-                            <div class="interp-grid">
-                                <div class="interp-item"><strong>Irama:</strong> <span id="interp-irama"></span></div>
-                                <div class="interp-item"><strong>Frekuensi:</strong> <span id="interp-rate"></span></div>
-                                <div class="interp-item"><strong>Aksis:</strong> <span id="interp-axis"></span></div>
-                                <div class="interp-item"><strong>Interval:</strong> <span id="interp-intervals"></span></div>
-                                <div class="interp-item"><strong>Segmen ST/T:</strong> <span id="interp-stt"></span></div>
+                        
+                        <div class="back-scroll">
+                            <!-- Complete Interpretation Grid -->
+                            <div class="interp-section">
+                                <h4 class="section-label">
+                                    <span class="icon">📋</span> Interpretasi EKG Lengkap
+                                </h4>
+                                <div class="interp-grid">
+                                    <div class="interp-item">
+                                        <span class="ilabel">Irama:</span>
+                                        <span class="ivalue" id="irama">—</span>
+                                    </div>
+                                    <div class="interp-item">
+                                        <span class="ilabel">Frekuensi:</span>
+                                        <span class="ivalue" id="rate">—</span>
+                                    </div>
+                                    <div class="interp-item">
+                                        <span class="ilabel">Aksis:</span>
+                                        <span class="ivalue" id="axis">—</span>
+                                    </div>
+                                    <div class="interp-item">
+                                        <span class="ilabel">Interval PR:</span>
+                                        <span class="ivalue" id="pr-interval">—</span>
+                                    </div>
+                                    <div class="interp-item">
+                                        <span class="ilabel">Kompleks QRS:</span>
+                                        <span class="ivalue" id="qrs-complex">—</span>
+                                    </div>
+                                    <div class="interp-item">
+                                        <span class="ilabel">Segmen ST:</span>
+                                        <span class="ivalue" id="st-segment">—</span>
+                                    </div>
+                                    <div class="interp-item">
+                                        <span class="ilabel">Gelombang T:</span>
+                                        <span class="ivalue" id="t-wave">—</span>
+                                    </div>
+                                    <div class="interp-item">
+                                        <span class="ilabel">Interval QT:</span>
+                                        <span class="ivalue" id="qt-interval">—</span>
+                                    </div>
+                                    <div class="interp-item">
+                                        <span class="ilabel">Gelombang U:</span>
+                                        <span class="ivalue" id="u-wave">—</span>
+                                    </div>
+                                    <div class="interp-item full-width">
+                                        <span class="ilabel">Diagnosis EKG:</span>
+                                        <span class="ivalue diagnosis" id="ecg-diagnosis">—</span>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="clinical-section">
-                                <strong>Korelasi Klinis:</strong>
-                                <p id="interp-clinical"></p>
+
+                            <!-- Clinical Correlation -->
+                            <div class="interp-section clinical-section">
+                                <h4 class="section-label">
+                                    <span class="icon">🩺</span> Korelasi Klinis & Diagnosis Banding
+                                </h4>
+                                <div class="clinical-content" id="clinical-content">
+                                    <div class="clinical-block">
+                                        <span class="clabel">Skenario Pasien:</span>
+                                        <p class="cvalue" id="patient-scenario">—</p>
+                                    </div>
+                                    <div class="clinical-block">
+                                        <span class="clabel">Korelasi Klinis:</span>
+                                        <p class="cvalue" id="clinical-correlation">—</p>
+                                    </div>
+                                    <div class="clinical-block">
+                                        <span class="clabel">Diagnosis Klinis:</span>
+                                        <p class="cvalue highlight-dx" id="clinical-diagnosis">—</p>
+                                    </div>
+                                    <div class="clinical-block">
+                                        <span class="clabel">Diagnosis Banding:</span>
+                                        <p class="cvalue" id="differential-dx">—</p>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="management-section">
-                                <strong>Tatalaksana Awal:</strong>
-                                <p id="interp-management"></p>
+
+                            <!-- Management -->
+                            <div class="interp-section management-section">
+                                <h4 class="section-label">
+                                    <span class="icon">💊</span> Tatalaksana & Obat
+                                </h4>
+                                <div class="management-content" id="management-content">
+                                    <div class="mgmt-block acute">
+                                        <span class="mlabel">Tatalaksana Awal / Emergensi:</span>
+                                        <p class="mvalue" id="acute-mgmt">—</p>
+                                    </div>
+                                    <div class="mgmt-block drugs">
+                                        <span class="mlabel">Obat-Obatan:</span>
+                                        <p class="mvalue" id="drug-list">—</p>
+                                    </div>
+                                    <div class="mgmt-block referral">
+                                        <span class="mlabel">Rujuk / Konsultasi:</span>
+                                        <p class="mvalue" id="referral">—</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- OSCE Answer Template -->
+                            <div class="interp-section osce-section">
+                                <h4 class="section-label">
+                                    <span class="icon">🎤</span> Template Jawaban OSCE
+                                </h4>
+                                <div class="osce-template" id="osce-template">
+                                    “EKG menunjukkan ... dengan ... Saya akan ...”
+                                </div>
                             </div>
                         </div>
-                        <div class="interpretation-content hidden" id="interp-klinis">
-                            <div class="interp-row"><strong>Deskripsi:</strong> <span id="interp-c-deskripsi"></span></div>
-                            <div class="interp-row"><strong>Korelasi Klinis:</strong> <span id="interp-c-korelasi"></span></div>
-                            <div class="interp-row highlight"><strong>Lab/Pemeriksaan:</strong> <span id="interp-c-lab"></span></div>
-                            <div class="interp-row action"><strong>Tatalaksana:</strong> <span id="interp-c-management"></span></div>
-                        </div>
-                        <div class="hint-text">Klik untuk membalik</div>
                     </div>
                 </div>
             </div>
 
+            <!-- Controls -->
             <div class="controls">
-                <button class="btn nav-btn" id="prev-btn">Terdahulu</button>
-                <button class="btn flip-btn" id="btn-flip">Putar Balik</button>
-                <button class="btn nav-btn" id="next-btn">Berikutnya</button>
+                <button class="ctrl-btn prev" id="prev-btn">
+                    <span class="ctrl-icon">◀</span>
+                    <span class="ctrl-label">Sebelumnya</span>
+                </button>
+                <button class="ctrl-btn flip" id="flip-btn">
+                    <span class="ctrl-icon">🔄</span>
+                    <span class="ctrl-label">Balik Kartu</span>
+                </button>
+                <button class="ctrl-btn shuffle" id="shuffle-btn">
+                    <span class="ctrl-icon">🔀</span>
+                    <span class="ctrl-label">Acak Ulang</span>
+                </button>
+                <button class="ctrl-btn next" id="next-btn">
+                    <span class="ctrl-label">Selanjutnya</span>
+                    <span class="ctrl-icon">▶</span>
+                </button>
             </div>
-            
-            <div style="text-align: center; margin-top: 2rem;">
-                <button class="btn-text" id="back-to-info">Kembali ke Infografis</button>
+
+            <div class="back-to-info">
+                <button class="btn-text" id="back-to-info">← Kembali ke Infografis</button>
             </div>
         </section>
     </div>
 
-    <script src="ecg-generator.js?v=3"></script>
-    <script src="data.js?v=3"></script>
-    <script src="clinical-data.js?v=3"></script>
-    <script src="real-ecg-data.js?v=3"></script>
-    <script src="app.js?v=3"></script>
+    <!-- SCRIPTS -->
+    <script src="ecg-ultra.js"></script>
+    <script src="flashcard-data.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>

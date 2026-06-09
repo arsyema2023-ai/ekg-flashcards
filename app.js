@@ -1,249 +1,411 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // Elements
-    const infographicSection = document.getElementById('infographic');
-    const flashcardSection = document.getElementById('flashcard-container');
-    const startBtn = document.getElementById('start-btn');
-    const backToInfoBtn = document.getElementById('back-to-info');
-    
-    // Mode Buttons
-    const modeEkgBtn = document.getElementById('btn-mode-ekg');
-    const modeKlinisBtn = document.getElementById('btn-mode-klinis');
-    const modeRealBtn = document.getElementById('btn-mode-real');
-    
-    const flashcard = document.getElementById('flashcard');
-    const prevBtn = document.getElementById('prev-btn');
-    const nextBtn = document.getElementById('next-btn');
-    const flipBtn = document.getElementById('btn-flip');
-    const hintBtn = document.getElementById('btn-hint');
-    const hintContainer = document.getElementById('hint-container');
-    
-    // Status elements
-    const currentIndexEl = document.getElementById('current-index');
-    const totalCardsEl = document.getElementById('total-cards');
-    const progressBar = document.getElementById('progress');
-    const cardBadge = document.getElementById('card-badge');
-    
-    // Front elements
-    const ecgDisplay = document.getElementById('ecg-display');
-    // Removed clinical image variables
-    
-    // Back elements
-    const diagnosisTitle = document.getElementById('diagnosis-title');
-    
-    // EKG back elements
-    const interpEkgContainer = document.getElementById('interp-ekg');
-    const interpIrama = document.getElementById('interp-irama');
-    const interpRate = document.getElementById('interp-rate');
-    const interpAxis = document.getElementById('interp-axis');
-    const interpIntervals = document.getElementById('interp-intervals');
-    const interpStt = document.getElementById('interp-stt');
-    const interpClinical = document.getElementById('interp-clinical');
-    const interpManagement = document.getElementById('interp-management');
+/**
+ * OSCE EKG UltraFlash — App Controller v4.0
+ * Handles: mode switching, ECG rendering, flip mechanics, hint system, progress, keyboard nav
+ */
+const App = {
+  // State
+  currentMode: 'mode1',
+  currentIndex: 0,
+  deck: [],
+  isFlipped: false,
+  hintActive: false,
+  ecgGenerator: null,
 
+  // DOM refs
+  els: {},
 
+  /**
+   * Initialize app
+   */
+  init() {
+    // Cache DOM elements
+    const $ = (id) => document.getElementById(id);
+    this.els = {
+      // Sections
+      infographic: $('infographic'),
+      flashcardSection: $('flashcard-section'),
+      // Mode buttons
+      mode1: $('btn-mode1'),
+      mode2: $('btn-mode2'),
+      mode3: $('btn-mode3'),
+      // Start / back
+      startBtn: $('start-btn'),
+      backToInfo: $('back-to-info'),
+      backInfo: $('btn-back-info'),
+      // Flashcard
+      flashcard: $('flashcard'),
+      wrapper: $('flashcard-wrapper'),
+      ecgCanvas: $('ecg-canvas'),
+      // Progress
+      progressFill: $('progress-fill'),
+      currentNum: $('current-num'),
+      totalNum: $('total-num'),
+      modeIndicator: $('mode-indicator'),
+      // Badge
+      badge: $('badge'),
+      cardNumber: $('card-number'),
+      cardTitle: $('card-title'),
+      backTitle: $('back-title'),
+      // Interpretation
+      irama: $('irama'),
+      rate: $('rate'),
+      axis: $('axis'),
+      prInterval: $('pr-interval'),
+      qrsComplex: $('qrs-complex'),
+      stSegment: $('st-segment'),
+      tWave: $('t-wave'),
+      qtInterval: $('qt-interval'),
+      uWave: $('u-wave'),
+      ecgDiagnosis: $('ecg-diagnosis'),
+      // Clinical
+      patientScenario: $('patient-scenario'),
+      clinicalCorrelation: $('clinical-correlation'),
+      clinicalDiagnosis: $('clinical-diagnosis'),
+      differentialDx: $('differential-dx'),
+      // Management
+      acuteMgmt: $('acute-mgmt'),
+      drugList: $('drug-list'),
+      referral: $('referral'),
+      // OSCE template
+      osceTemplate: $('osce-template'),
+      // Buttons
+      hintBtn: $('btn-hint'),
+      flipBtn: $('flip-btn'),
+      shuffleBtn: $('shuffle-btn'),
+      prevBtn: $('prev-btn'),
+      nextBtn: $('next-btn')
+    };
 
-    // App State
-    let currentMode = 'ekg'; // 'ekg' or 'klinis'
-    let deck = [];
-    let currentIndex = 0;
-    const ecgGenerator = new ECGGenerator('ecg-display');
+    // Create ECG generator
+    this.ecgGenerator = new ECGUltraGenerator();
 
-    // Initialize App
-    function initApp() {
-        // Toggle Listeners
-        modeEkgBtn.addEventListener('click', () => setMode('ekg'));
-        modeKlinisBtn.addEventListener('click', () => setMode('klinis'));
-        modeRealBtn.addEventListener('click', () => setMode('real'));
+    // Bind events
+    this._bindEvents();
 
-        startBtn.addEventListener('click', startFlashcards);
-        backToInfoBtn.addEventListener('click', showInfographic);
-        
-        prevBtn.addEventListener('click', showPrevCard);
-        nextBtn.addEventListener('click', showNextCard);
-        flipBtn.addEventListener('click', toggleFlip);
-        hintBtn.addEventListener('click', toggleHint);
-        flashcard.addEventListener('click', (e) => {
-            // Prevent flipping if selecting text or clicking hint btn
-            if(window.getSelection().toString().length === 0 && e.target !== hintBtn) {
-                toggleFlip();
-            }
-        });
-        // Handle Keyboard navigation
-        document.addEventListener('keydown', (e) => {
-            if (!flashcardSection.classList.contains('hidden')) {
-                if (e.key === 'ArrowRight' || e.key === ' ') {
-                    e.preventDefault();
-                    if(flashcard.classList.contains('flipped')) {
-                        showNextCard();
-                    } else {
-                        toggleFlip();
-                    }
-                } else if (e.key === 'ArrowLeft') {
-                    showPrevCard();
-                } else if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
-                    e.preventDefault();
-                    toggleFlip();
-                }
-            }
-        });
-    }
+    // Initial render
+    console.log('⚡ EKG UltraFlash initialized!');
+  },
 
-    function setMode(mode) {
-        if (mode === currentMode) return;
-        currentMode = mode;
-        
-        // Update Buttons
-        modeEkgBtn.classList.remove('active');
-        modeKlinisBtn.classList.remove('active');
-        modeRealBtn.classList.remove('active');
-        
-        if (mode === 'ekg') {
-            modeEkgBtn.classList.add('active');
-        } else if (mode === 'klinis') {
-            modeKlinisBtn.classList.add('active');
-        } else if (mode === 'real') {
-            modeRealBtn.classList.add('active');
-        }
-        
-        // If we are currently showing flashcards, restart them in the new mode
-        if (!flashcardSection.classList.contains('hidden')) {
-            startFlashcards();
-        }
-    }
+  /**
+   * Bind all event listeners
+   */
+  _bindEvents() {
+    const els = this.els;
 
-    // Shuffle Array (Fisher-Yates)
-    function shuffleArray(array) {
-        let curId = array.length;
-        while (0 !== curId) {
-            let randId = Math.floor(Math.random() * curId);
-            curId -= 1;
-            let tmp = array[curId];
-            array[curId] = array[randId];
-            array[randId] = tmp;
-        }
-        return array;
-    }
+    // Mode switching
+    els.mode1.addEventListener('click', () => this.setMode('mode1'));
+    els.mode2.addEventListener('click', () => this.setMode('mode2'));
+    els.mode3.addEventListener('click', () => this.setMode('mode3'));
 
-    function startFlashcards() {
-        let sourceData;
-        if (currentMode === 'ekg') sourceData = ecgData;
-        else if (currentMode === 'klinis') sourceData = clinicalData;
-        else sourceData = typeof realEcgData !== 'undefined' ? realEcgData : [];
+    // Start / back
+    els.startBtn.addEventListener('click', () => this.startFlashcards());
+    els.backToInfo.addEventListener('click', () => this.showInfographic());
+    els.backInfo.addEventListener('click', () => this.showInfographic());
 
-        deck = shuffleArray([...sourceData]);
-        currentIndex = 0;
-        
-        totalCardsEl.textContent = deck.length;
-        infographicSection.classList.add('hidden');
-        flashcardSection.classList.remove('hidden');
-        
-        // Reset flip state
-        flashcard.classList.remove('flipped');
-        
-        renderCard();
-    }
+    // Flashcard flip
+    els.flashcard.addEventListener('click', (e) => {
+      if (e.target.closest('.btn-hint') || e.target.closest('.btn-back-info') || 
+          e.target.closest('.ctrl-btn') || e.target.closest('.back-to-info')) return;
+      this.toggleFlip();
+    });
+    els.flipBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      this.toggleFlip();
+    });
 
-    function showInfographic() {
-        flashcardSection.classList.add('hidden');
-        infographicSection.classList.remove('hidden');
-    }
+    // Hint
+    els.hintBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      this.toggleHint();
+    });
 
-    function toggleFlip() {
-        flashcard.classList.toggle('flipped');
-    }
-    
-    function toggleHint(e) {
-        if(e) e.stopPropagation();
-        const cardData = deck[currentIndex];
-        if(!cardData || !cardData.generatorConfig) return;
-        
-        cardData.generatorConfig.showLabels = !cardData.generatorConfig.showLabels;
-        ecgDisplay.innerHTML = ecgGenerator.render(cardData.generatorConfig);
-        
-        if(cardData.generatorConfig.showLabels) {
-            hintBtn.textContent = 'Sembunyikan Petunjuk Gelombang';
+    // Navigation
+    els.prevBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      this.prevCard();
+    });
+    els.nextBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      this.nextCard();
+    });
+    els.shuffleBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      this.shuffleDeck();
+    });
+
+    // Keyboard
+    document.addEventListener('keydown', (e) => {
+      if (this.els.flashcardSection.classList.contains('hidden')) return;
+      
+      if (e.key === 'ArrowRight' || e.key === ' ') {
+        e.preventDefault();
+        if (this.isFlipped) {
+          this.nextCard();
         } else {
-            hintBtn.textContent = 'Tampilkan Petunjuk Gelombang';
+          this.toggleFlip();
         }
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        this.prevCard();
+      } else if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+        e.preventDefault();
+        this.toggleFlip();
+      } else if (e.key === 'h' || e.key === 'H') {
+        this.toggleHint();
+      } else if (e.key === 'Home') {
+        this.showInfographic();
+      }
+    });
+  },
+
+  /**
+   * Set active mode
+   */
+  setMode(mode) {
+    if (mode === this.currentMode) return;
+    this.currentMode = mode;
+
+    // Update UI buttons
+    [this.els.mode1, this.els.mode2, this.els.mode3].forEach(btn => {
+      btn.classList.remove('active');
+    });
+    this.els[mode].classList.add('active');
+
+    // If flashcards are active, restart
+    if (!this.els.flashcardSection.classList.contains('hidden')) {
+      this.startFlashcards();
+    }
+  },
+
+  /**
+   * Show infographic
+   */
+  showInfographic() {
+    this.els.flashcardSection.classList.add('hidden');
+    this.els.infographic.classList.remove('hidden');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  },
+
+  /**
+   * Start flashcards session
+   */
+  startFlashcards() {
+    // Get data for mode
+    const sourceData = FLASHCARD_DATA[this.currentMode] || [];
+    if (!sourceData.length) return;
+
+    // Shuffle deck
+    this.deck = this._shuffle([...sourceData]);
+    this.currentIndex = 0;
+    this.isFlipped = false;
+
+    // Update UI
+    this.els.flashcard.classList.remove('flipped');
+    this.els.totalNum.textContent = this.deck.length;
+    this.els.infographic.classList.add('hidden');
+    this.els.flashcardSection.classList.remove('hidden');
+
+    // Mode label
+    const labels = { mode1: 'Mode 1: Diagnosis EKG', mode2: 'Mode 2: Diagnosis Klinis', mode3: 'Mode 3: Komprehensif' };
+    this.els.modeIndicator.textContent = labels[this.currentMode] || '';
+
+    this.renderCard();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  },
+
+  /**
+   * Render current card
+   */
+  renderCard() {
+    const card = this.deck[this.currentIndex];
+    if (!card) return;
+
+    const idx = this.currentIndex;
+    const total = this.deck.length;
+
+    // Progress
+    this.els.progressFill.style.width = `${((idx + 1) / total) * 100}%`;
+    this.els.currentNum.textContent = idx + 1;
+
+    // Badge
+    this.els.badge.className = `badge ${card.priority}`;
+    this.els.badge.textContent = card.priority === 'priority-tinggi' ? 'Prioritas Tinggi' :
+                                 card.priority === 'priority-menengah' ? 'Prioritas Sedang' :
+                                 'Tambahan';
+    this.els.cardNumber.textContent = `#${String(idx + 1).padStart(2, '0')}`;
+
+    // Title
+    this.els.cardTitle.textContent = card.title;
+    this.els.backTitle.textContent = card.title;
+
+    // Reset hint
+    this.hintActive = false;
+    this.els.hintBtn.textContent = '🔍 Buka Hint — Tampilkan Highlight & Legenda';
+    this.els.hintBtn.classList.remove('active');
+
+    // Render ECG on canvas
+    this._renderECG(card.ecgParams || {}, false);
+
+    // Fill interpretation
+    this._fillInterpretation(card.interp);
+    this._fillClinical(card.clinical);
+    this._fillManagement(card.management);
+
+    // OSCE template
+    if (card.osceTemplate) {
+      this.els.osceTemplate.textContent = card.osceTemplate;
     }
 
-    function showNextCard() {
-        if (currentIndex < deck.length - 1) {
-            flashcard.classList.remove('flipped');
-            setTimeout(() => {
-                currentIndex++;
-                renderCard();
-            }, 300); // Wait for flip animation before changing content
-        } else {
-            startFlashcards();
-        }
+    // Buttons
+    this.els.prevBtn.disabled = idx === 0;
+    this.els.prevBtn.style.opacity = idx === 0 ? '0.4' : '1';
+    this.els.nextBtn.innerHTML = idx === total - 1 ? 
+      '<span class="ctrl-icon">🔄</span><span>Ulangi</span>' :
+      '<span>Selanjutnya</span><span class="ctrl-icon">▶</span>';
+
+    // Reset flip
+    this.isFlipped = false;
+    this.els.flashcard.classList.remove('flipped');
+  },
+
+  /**
+   * Render ECG on canvas
+   */
+  _renderECG(params, showHighlights = false) {
+    const canvas = this.els.ecgCanvas;
+    
+    // Merge highlight flag into params
+    const p = { ...params };
+    p.showLabels = this.hintActive;
+    p.showHighlights = showHighlights || this.hintActive;
+
+    try {
+      this.ecgGenerator.render(p, canvas);
+    } catch(e) {
+      console.error('ECG render error:', e);
+    }
+  },
+
+  /**
+   * Fill interpretation data
+   */
+  _fillInterpretation(interp) {
+    if (!interp) return;
+    this.els.irama.textContent = interp.irama || '—';
+    this.els.rate.textContent = interp.rate || '—';
+    this.els.axis.textContent = interp.axis || '—';
+    this.els.prInterval.textContent = interp.prInterval || '—';
+    this.els.qrsComplex.textContent = interp.qrsComplex || '—';
+    this.els.stSegment.textContent = interp.stSegment || '—';
+    this.els.tWave.textContent = interp.tWave || '—';
+    this.els.qtInterval.textContent = interp.qtInterval || '—';
+    this.els.uWave.textContent = interp.uWave || '—';
+    this.els.ecgDiagnosis.textContent = interp.ecgDiagnosis || '—';
+  },
+
+  /**
+   * Fill clinical data
+   */
+  _fillClinical(clinical) {
+    if (!clinical) return;
+    this.els.patientScenario.textContent = clinical.scenario || '—';
+    this.els.clinicalCorrelation.textContent = clinical.correlation || '—';
+    this.els.clinicalDiagnosis.textContent = clinical.diagnosis || '—';
+    this.els.differentialDx.textContent = clinical.differential || '—';
+  },
+
+  /**
+   * Fill management data
+   */
+  _fillManagement(mgmt) {
+    if (!mgmt) return;
+    this.els.acuteMgmt.textContent = mgmt.acute || '—';
+    this.els.drugList.textContent = mgmt.drugs || '—';
+    this.els.referral.textContent = mgmt.referral || '—';
+  },
+
+  /**
+   * Toggle flip
+   */
+  toggleFlip() {
+    this.isFlipped = !this.isFlipped;
+    this.els.flashcard.classList.toggle('flipped');
+  },
+
+  /**
+   * Toggle hint (wave labels + highlights)
+   */
+  toggleHint() {
+    this.hintActive = !this.hintActive;
+    const card = this.deck[this.currentIndex];
+    if (!card) return;
+
+    if (this.hintActive) {
+      this.els.hintBtn.textContent = '🔒 Tutup Hint';
+      this.els.hintBtn.classList.add('active');
+    } else {
+      this.els.hintBtn.textContent = '🔍 Buka Hint — Tampilkan Highlight & Legenda';
+      this.els.hintBtn.classList.remove('active');
     }
 
-    function showPrevCard() {
-        if (currentIndex > 0) {
-            flashcard.classList.remove('flipped');
-            setTimeout(() => {
-                currentIndex--;
-                renderCard();
-            }, 300);
-        }
+    // Re-render ECG with hint
+    this._renderECG(card.ecgParams || {}, true);
+
+    // If flipped, re-render back too (hint overlay)
+    if (this.isFlipped) {
+      this.els.flashcard.classList.add('flipped');
     }
+  },
 
-    function updateProgressBar() {
-        const percentage = ((currentIndex + 1) / deck.length) * 100;
-        progressBar.style.width = `${percentage}%`;
-        currentIndexEl.textContent = currentIndex + 1;
+  /**
+   * Next card
+   */
+  nextCard() {
+    if (this.currentIndex < this.deck.length - 1) {
+      this.els.flashcard.classList.remove('flipped');
+      this.isFlipped = false;
+      this.currentIndex++;
+      setTimeout(() => this.renderCard(), 300);
+    } else {
+      // Restart
+      this.startFlashcards();
     }
+  },
 
-    function renderCard() {
-        const cardData = deck[currentIndex];
-        
-        updateProgressBar();
-        
-        // Update Badge
-        cardBadge.className = `badge ${cardData.priority}`;
-        let badgeText = 'Tertinggi';
-        if(cardData.priority === 'prioritas-menengah') badgeText = 'Tinggi';
-        if(cardData.priority === 'tambahan') badgeText = 'Tambahan';
-        cardBadge.textContent = `Prioritas ${badgeText}`;
-
-        diagnosisTitle.textContent = cardData.title;
-
-        // Front UI
-        ecgDisplay.classList.remove('hidden');
-        hintContainer.classList.remove('hidden');
-        
-        // Back UI
-        interpEkgContainer.classList.remove('hidden');
-        
-        // Reset hint label
-        if (cardData.generatorConfig) {
-            cardData.generatorConfig.showLabels = false;
-            hintBtn.textContent = 'Tampilkan Petunjuk Gelombang';
-            ecgDisplay.innerHTML = ecgGenerator.render(cardData.generatorConfig);
-        }
-        
-        // Render Text
-        interpIrama.textContent = cardData.interp.irama;
-        interpRate.textContent = cardData.interp.rate;
-        interpAxis.textContent = cardData.interp.axis;
-        interpIntervals.textContent = cardData.interp.intervals;
-        interpStt.textContent = cardData.interp.stt;
-        interpClinical.textContent = cardData.interp.clinical;
-        interpManagement.textContent = cardData.interp.management;
-        
-        
-        // Update Buttons
-        prevBtn.disabled = currentIndex === 0;
-        prevBtn.style.opacity = currentIndex === 0 ? '0.5' : '1';
-        
-        if (currentIndex === deck.length - 1) {
-            nextBtn.textContent = 'Mulai Ulang';
-        } else {
-            nextBtn.textContent = 'Berikutnya';
-        }
+  /**
+   * Previous card
+   */
+  prevCard() {
+    if (this.currentIndex > 0) {
+      this.els.flashcard.classList.remove('flipped');
+      this.isFlipped = false;
+      this.currentIndex--;
+      setTimeout(() => this.renderCard(), 300);
     }
+  },
 
-    // Run
-    initApp();
-});
+  /**
+   * Shuffle deck
+   */
+  shuffleDeck() {
+    this.deck = this._shuffle(this.deck);
+    this.currentIndex = 0;
+    this.els.flashcard.classList.remove('flipped');
+    this.isFlipped = false;
+    this.renderCard();
+  },
+
+  /**
+   * Fisher-Yates shuffle
+   */
+  _shuffle(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
+};
+
+// Initialize when DOM is ready
+document.addEventListener('DOMContentLoaded', () => App.init());
