@@ -86,13 +86,11 @@ class ECGGenerator {
                 continue;
             }
 
-            // Draw one complex
-            let complex = this.drawComplex(x, currentBeat);
+            let complex = this.drawComplex(x, currentBeat, wavePeaks);
             path += complex.path;
             
             let segmentXEnd = x + (currentRRMs / 10);
             
-            // Draw baseline / flutter / fib waves until next beat
             if (currentBeat.flutter) {
                  path += this.drawFlutter(complex.newX, segmentXEnd);
             } else if (currentBeat.fibrillation) {
@@ -104,116 +102,67 @@ class ECGGenerator {
             x = segmentXEnd;
         }
 
+        this.lastWavePeaks = wavePeaks;
         return path;
     }
 
-    drawComplex(startX, params) {
+    drawComplex(startX, params, wavePeaks) {
         let path = '';
         let cx = startX;
 
-        // P Wave
         if (params.pWave !== false) {
             let pWidth = (params.pWidthMs || 80) / 10;
-            let pAmp = (params.pAmpMv || 0.15) * 10 * this.mm; // 1mV = 10mm
-            cx += 2; // flat before P
+            let pAmp = (params.pAmpMv || 0.15) * 10 * this.mm;
+            cx += 2;
             path += ` L ${cx} ${this.baselineY}`;
+            wavePeaks.P.push({ x: cx + pWidth/2, y: this.baselineY - pAmp });
             path += ` Q ${cx + pWidth/2} ${this.baselineY - pAmp}, ${cx + pWidth} ${this.baselineY}`;
             cx += pWidth;
         }
 
-        // PR Segment
         let prSegmentMs = (params.prMs || 160) - (params.pWidthMs || 80);
         if (prSegmentMs < 0) prSegmentMs = 10;
-        if(params.wpw) prSegmentMs = 0; // delta wave starts immediately
+        if(params.wpw) prSegmentMs = 0; 
         cx += prSegmentMs / 10;
         
-        let qrsStart = cx;
-
-        // QRS Complex
         let qrsWidthMs = params.qrsMs || 80;
         let qrsWidthPx = qrsWidthMs / 10;
         
         if (params.pvc || params.vt) {
-            // Wide bizarre QRS
             path += ` L ${cx} ${this.baselineY}`;
-            path += ` L ${cx + qrsWidthPx*0.3} ${this.baselineY + 40}`; // Deep S
-            path += ` L ${cx + qrsWidthPx*0.7} ${this.baselineY - 80}`; // Tall R
-            cx += qrsWidthPx;
-            path += ` L ${cx} ${this.baselineY}`;
-        } else if (params.rbbb) {
-            // rsR' pattern
-            path += ` L ${cx} ${this.baselineY}`;
-            path += ` L ${cx + qrsWidthPx*0.2} ${this.baselineY - 20}`; // r
-            path += ` L ${cx + qrsWidthPx*0.4} ${this.baselineY + 20}`; // s
-            path += ` L ${cx + qrsWidthPx*0.7} ${this.baselineY - 60}`; // R'
-            cx += qrsWidthPx;
-            path += ` L ${cx} ${this.baselineY}`;
-        } else if (params.lbbb) {
-            // Broad notched R
-            path += ` L ${cx} ${this.baselineY}`;
-            path += ` L ${cx + qrsWidthPx*0.3} ${this.baselineY - 60}`;
-            path += ` L ${cx + qrsWidthPx*0.5} ${this.baselineY - 40}`; // notch
-            path += ` L ${cx + qrsWidthPx*0.7} ${this.baselineY - 60}`;
+            wavePeaks.S.push({ x: cx + qrsWidthPx*0.3, y: this.baselineY + 40 });
+            path += ` L ${cx + qrsWidthPx*0.3} ${this.baselineY + 40}`; 
+            wavePeaks.R.push({ x: cx + qrsWidthPx*0.7, y: this.baselineY - 80 });
+            path += ` L ${cx + qrsWidthPx*0.7} ${this.baselineY - 80}`; 
             cx += qrsWidthPx;
             path += ` L ${cx} ${this.baselineY}`;
         } else {
-            // Normal QRS
             let stElev = params.stElevMv ? params.stElevMv * 10 * this.mm : 0;
-            
             path += ` L ${cx} ${this.baselineY}`;
-            // Q wave
             if (params.qWave) {
+                 wavePeaks.Q.push({ x: cx + 1, y: this.baselineY + 10 });
                  path += ` L ${cx + 2} ${this.baselineY + 10}`;
                  cx += 2;
             }
-            if (params.wpw) {
-                 // Slurred upstroke (delta wave)
-                 path += ` Q ${cx + qrsWidthPx*0.3} ${this.baselineY}, ${cx + qrsWidthPx*0.5} ${this.baselineY - 60}`;
-            } else {
-                 path += ` L ${cx + qrsWidthPx*0.3} ${this.baselineY - (params.lvh ? 120 : 60)}`; // R wave
-            }
-            path += ` L ${cx + qrsWidthPx*0.7} ${this.baselineY + (params.lvh ? 80 : 20)}`; // S wave
+            wavePeaks.R.push({ x: cx + qrsWidthPx*0.5, y: this.baselineY - (params.lvh ? 120 : 60) });
+            path += ` L ${cx + qrsWidthPx*0.5} ${this.baselineY - (params.lvh ? 120 : 60)}`;
+            wavePeaks.S.push({ x: cx + qrsWidthPx*0.7, y: this.baselineY + (params.lvh ? 80 : 20) });
+            path += ` L ${cx + qrsWidthPx*0.7} ${this.baselineY + (params.lvh ? 80 : 20)}`;
             cx += qrsWidthPx;
-            
-            // J point / ST segment
             path += ` L ${cx} ${this.baselineY - stElev}`;
         }
 
-        // ST segment width
         let stWidthPx = (params.stMs || 80) / 10;
         let stElev = params.stElevMv ? params.stElevMv * 10 * this.mm : 0;
         cx += stWidthPx;
         path += ` L ${cx} ${this.baselineY - stElev}`;
 
-        // T Wave
         let tWidthPx = (params.tMs || 160) / 10;
         let tAmp = (params.tAmpMv || 0.3) * 10 * this.mm;
         
-        if (params.stElevMv) {
-            // Merge ST elevation smoothly into T wave
-             path += ` Q ${cx + tWidthPx/2} ${this.baselineY - stElev - tAmp}, ${cx + tWidthPx} ${this.baselineY}`;
-             cx += tWidthPx;
-        } else if (params.tInverted) {
-             path += ` Q ${cx + tWidthPx/2} ${this.baselineY + tAmp}, ${cx + tWidthPx} ${this.baselineY}`;
-             cx += tWidthPx;
-        } else if (params.hyperkalemia) {
-             // Tall peaked T wave
-             let pkAmp = 80;
-             path += ` L ${cx + tWidthPx*0.4} ${this.baselineY - pkAmp}`;
-             path += ` L ${cx + tWidthPx} ${this.baselineY}`;
-             cx += tWidthPx;
-        } else {
-            // Normal T
-            path += ` Q ${cx + tWidthPx/2} ${this.baselineY - tAmp}, ${cx + tWidthPx} ${this.baselineY}`;
-            cx += tWidthPx;
-        }
-
-        // U Wave for hypokalemia
-        if (params.hypokalemia) {
-            cx += 2;
-            path += ` Q ${cx + 10} ${this.baselineY - 15}, ${cx + 20} ${this.baselineY}`;
-            cx += 20;
-        }
+        wavePeaks.T.push({ x: cx + tWidthPx/2, y: this.baselineY - tAmp });
+        path += ` Q ${cx + tWidthPx/2} ${this.baselineY - tAmp}, ${cx + tWidthPx} ${this.baselineY}`;
+        cx += tWidthPx;
 
         return { path, newX: cx };
     }
@@ -228,8 +177,7 @@ class ECGGenerator {
     drawFlutter(startX, endX) {
         let path = '';
         let cx = startX;
-        // Sawtooth pattern, approx 300 bpm flutter waves
-        let flutWidth = 200 / 10; // 200ms per flutter wave
+        let flutWidth = 200 / 10;
         while (cx + flutWidth <= endX) {
             path += ` L ${cx + flutWidth * 0.7} ${this.baselineY + 15}`;
             path += ` L ${cx + flutWidth} ${this.baselineY - 15}`;
@@ -265,14 +213,26 @@ class ECGGenerator {
         return { path, newX: endX };
     }
 
+    _generateWaveLabels(peaks) {
+        let svg = '';
+        for (let wave in peaks) {
+            peaks[wave].forEach(pt => {
+                svg += `<text x="${pt.x}" y="${pt.y - 10}" font-family="Arial" font-size="10" fill="red" text-anchor="middle">${wave}</text>`;
+            });
+        }
+        return svg;
+    }
+
     render(config) {
         const grid = this.drawGrid();
         const trace = this.generateTrace(config);
+        const labels = config.showLabels ? this._generateWaveLabels(this.lastWavePeaks) : '';
         
         return `
-            <svg class="ecg-grid" viewBox="0 0 ${this.svgWidth} ${this.svgHeight}" preserveAspectRatio="xMidYMid meet">
+            <svg viewBox="0 0 ${this.svgWidth} ${this.svgHeight}" preserveAspectRatio="xMidYMid meet">
                 ${grid}
-                <path class="ecg-trace" d="${trace}" />
+                <path class="ecg-trace" d="${trace}" fill="none" stroke="black" />
+                ${labels}
             </svg>
         `;
     }

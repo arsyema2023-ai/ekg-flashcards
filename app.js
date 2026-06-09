@@ -14,6 +14,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const prevBtn = document.getElementById('prev-btn');
     const nextBtn = document.getElementById('next-btn');
     const flipBtn = document.getElementById('btn-flip');
+    const hintBtn = document.getElementById('btn-hint');
+    const hintContainer = document.getElementById('hint-container');
     
     // Status elements
     const currentIndexEl = document.getElementById('current-index');
@@ -66,9 +68,10 @@ document.addEventListener('DOMContentLoaded', () => {
         prevBtn.addEventListener('click', showPrevCard);
         nextBtn.addEventListener('click', showNextCard);
         flipBtn.addEventListener('click', toggleFlip);
+        hintBtn.addEventListener('click', toggleHint);
         flashcard.addEventListener('click', (e) => {
-            // Prevent flipping if selecting text
-            if(window.getSelection().toString().length === 0) {
+            // Prevent flipping if selecting text or clicking hint btn
+            if(window.getSelection().toString().length === 0 && e.target !== hintBtn) {
                 toggleFlip();
             }
         });
@@ -166,6 +169,23 @@ document.addEventListener('DOMContentLoaded', () => {
     function toggleFlip() {
         flashcard.classList.toggle('flipped');
     }
+    
+    function toggleHint(e) {
+        if(e) e.stopPropagation();
+        if(currentMode !== 'ekg') return;
+        
+        const cardData = deck[currentIndex];
+        if(!cardData.generatorConfig) return;
+        
+        cardData.generatorConfig.showLabels = !cardData.generatorConfig.showLabels;
+        ecgDisplay.innerHTML = ecgGenerator.render(cardData.generatorConfig);
+        
+        if(cardData.generatorConfig.showLabels) {
+            hintBtn.textContent = 'Sembunyikan Petunjuk Gelombang';
+        } else {
+            hintBtn.textContent = 'Tampilkan Petunjuk Gelombang';
+        }
+    }
 
     function showNextCard() {
         if (currentIndex < deck.length - 1) {
@@ -213,10 +233,16 @@ document.addEventListener('DOMContentLoaded', () => {
             // Front UI
             ecgDisplay.classList.remove('hidden');
             clinicalDisplay.classList.add('hidden');
+            hintContainer.classList.remove('hidden');
             // Back UI
             interpEkgContainer.classList.remove('hidden');
             interpKlinisContainer.classList.add('hidden');
             
+            // Reset hint label
+            if (cardData.generatorConfig) {
+                cardData.generatorConfig.showLabels = false;
+                hintBtn.textContent = 'Tampilkan Petunjuk Gelombang';
+            }
             // Render ECG SVG
             ecgDisplay.innerHTML = ecgGenerator.render(cardData.generatorConfig);
             
@@ -233,6 +259,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Front UI
             ecgDisplay.classList.add('hidden');
             clinicalDisplay.classList.remove('hidden');
+            hintContainer.classList.add('hidden');
             clinicalImg.classList.remove('contain-img'); // cover for clinical photos
             // Back UI
             interpEkgContainer.classList.add('hidden');
@@ -251,17 +278,21 @@ document.addEventListener('DOMContentLoaded', () => {
             
         } else if (currentMode === 'real') {
             // Front UI
-            ecgDisplay.classList.add('hidden');
-            clinicalDisplay.classList.remove('hidden');
-            clinicalImg.classList.add('contain-img'); // contain for 12-lead ECG
+            ecgDisplay.classList.remove('hidden');
+            clinicalDisplay.classList.add('hidden');
+            hintContainer.classList.remove('hidden');
             // Back UI uses EKG layout
             interpEkgContainer.classList.remove('hidden');
             interpKlinisContainer.classList.add('hidden');
             
-            // Render ECG Image
-            clinicalImg.style.display = 'block'; 
-            imgFallback.classList.add('hidden');
-            clinicalImg.src = cardData.imageUrl;
+            // Reset hint label
+            if (cardData.generatorConfig) {
+                cardData.generatorConfig.showLabels = false;
+                hintBtn.textContent = 'Tampilkan Petunjuk Gelombang';
+            }
+            
+            // Render ECG Image (SVG generated precision)
+            ecgDisplay.innerHTML = ecgGenerator.render(cardData.generatorConfig);
             
             // Render Text
             interpIrama.textContent = cardData.interp.irama;

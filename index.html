@@ -73,16 +73,20 @@
                     <div class="flashcard-face front">
                         <div class="card-header">
                             <span class="badge" id="card-badge">Prioritas</span>
-                            <span class="hint-text">Klik untuk melihat interpretasi</span>
                         </div>
-                        <div class="ecg-container" id="ecg-display">
-                            <!-- SVG will be generated here -->
+                        <!-- Front: Display -->
+                        <div class="card-front">
+                            <div class="display-container" id="ecg-display">
+                                <!-- SVG / Canvas -->
+                            </div>
+                            <div class="clinical-img-container hidden" id="clinical-display">
+                                <img id="clinical-img" src="" alt="Clinical Sign" class="contain-img">
+                                <div id="img-fallback" class="hidden image-fallback">Gambar tidak dapat dimuat.</div>
+                            </div>
+                            <div class="hint-container" id="hint-container" style="text-align: center; margin-top: 10px;">
+                                <button class="btn btn-secondary" id="btn-hint">Tampilkan Petunjuk Gelombang</button>
+                            </div>
                         </div>
-                        <div class="clinical-img-container hidden" id="clinical-display">
-                            <img src="" alt="Diagnosis Image" id="clinical-img" />
-                            <div class="image-fallback hidden" id="img-fallback">Gambar tidak dapat dimuat</div>
-                        </div>
-                        <div class="question-text">Apa diagnosis kasus ini?</div>
                     </div>
                     
                     <!-- Back side: Interpretation -->
