@@ -469,125 +469,112 @@ body {
     line-height: 1.6;
 }
 
-/* ============ NAVIGATION BAR (Sticky Bottom) ============ */
-.nav-bar {
-    position: sticky;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: linear-gradient(180deg, transparent, var(--bg) 20%);
-    padding: 12px 0 8px;
-    z-index: 100;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-.nav-row {
+/* ============ HEADBAR TOOLBAR (no overlap with flashcard) ============ */
+.headbar-toolbar {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 8px 12px;
+    margin-bottom: 12px;
+    background: rgba(15, 23, 42, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+}
+
+.headbar-left {
+    display: flex;
+    align-items: center;
     gap: 8px;
 }
 
-/* Top row — small action buttons */
-.nav-row.top-actions {
-    gap: 6px;
-}
-
-.nav-btn-action {
+.headbar-right {
     display: flex;
     align-items: center;
     gap: 4px;
-    padding: 6px 14px;
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    background: rgba(15, 23, 42, 0.8);
-    backdrop-filter: blur(8px);
-    color: var(--text-muted);
-    cursor: pointer;
-    font-family: inherit;
-    font-size: 0.75rem;
-    font-weight: 500;
-    transition: var(--transition);
-}
-.nav-btn-action:hover {
-    background: var(--surface-hover);
-    color: var(--text);
-    border-color: var(--border-strong);
-}
-.nav-btn-action .nav-icon { font-size: 0.9rem; }
-.nav-btn-action .nav-label { display: inline; }
-
-/* Bottom row — big Prev / Next buttons */
-.nav-row.main-nav {
-    gap: 12px;
 }
 
-.nav-btn-large {
+/* Prev / Next buttons */
+.headbar-btn {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 14px 28px;
+    gap: 6px;
+    padding: 8px 16px;
     border: none;
-    border-radius: 14px;
+    border-radius: 10px;
     background: linear-gradient(135deg, var(--primary), #2563eb);
     color: white;
     cursor: pointer;
     font-family: inherit;
-    font-size: 1rem;
+    font-size: 0.85rem;
     font-weight: 600;
     transition: var(--transition);
-    box-shadow: 0 4px 15px var(--primary-glow);
-    min-width: 130px;
-    justify-content: center;
+    box-shadow: 0 2px 8px var(--primary-glow);
 }
-.nav-btn-large:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 25px var(--primary-glow);
+.headbar-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px var(--primary-glow);
 }
-.nav-btn-large:active {
+.headbar-btn:active {
     transform: translateY(0);
 }
-.nav-btn-large:disabled {
+.headbar-btn:disabled {
     opacity: 0.3;
     cursor: not-allowed;
     transform: none !important;
     box-shadow: none !important;
 }
-.nav-btn-large.prev {
+.headbar-btn.prev {
     background: linear-gradient(135deg, #475569, #334155);
-    box-shadow: 0 4px 12px rgba(71, 85, 105, 0.3);
+    box-shadow: 0 2px 6px rgba(71, 85, 105, 0.3);
 }
-.nav-btn-large.prev:hover {
-    box-shadow: 0 6px 20px rgba(71, 85, 105, 0.5);
-}
-.nav-arrow { font-size: 1.3rem; }
-.nav-detail { font-size: 0.95rem; }
+.head-arrow { font-size: 1rem; }
+.head-label { font-size: 0.78rem; font-weight: 600; }
 
-/* Counter in the middle */
-.nav-counter {
+/* Counter */
+.headbar-counter {
     display: flex;
     align-items: center;
-    gap: 2px;
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: var(--text-muted);
-    min-width: 70px;
-    justify-content: center;
+    gap: 1px;
     font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 1.1rem;
+    min-width: 60px;
+    justify-content: center;
+    padding: 0 6px;
 }
-.nav-counter #current-num-nav {
-    color: var(--primary);
-    font-size: 1.5rem;
-}
-.nav-counter #total-num-nav {
+.counter-cur { color: var(--primary); font-size: 1.2rem; }
+.counter-total { color: var(--text-muted); }
+.counter-sep { color: var(--text-dim); margin: 0 1px; }
+
+/* Small action buttons */
+.headbar-action {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: transparent;
     color: var(--text-muted);
+    cursor: pointer;
+    font-size: 1.05rem;
+    transition: var(--transition);
 }
-.nav-sep {
-    color: var(--text-dim);
-    margin: 0 2px;
+.headbar-action:hover {
+    background: var(--surface-hover);
+    color: var(--text);
+    border-color: var(--border-strong);
 }
+.headbar-action:active {
+    transform: scale(0.93);
+}
+
+/* Hide old progress-info since nav is in toolbar */
+.progress-info { display: none; }
 
 .back-to-info { text-align: center; margin-top: 1rem; }
 .btn-text {
@@ -624,20 +611,14 @@ body {
     
     .interp-grid { grid-template-columns: 1fr; }
 
-    /* Nav bar responsive */
-    .nav-btn-large {
-        padding: 12px 18px;
-        min-width: 90px;
-        font-size: 0.85rem;
-    }
-    .nav-btn-large .nav-detail { display: none; }
-    .nav-arrow { font-size: 1.5rem; }
-    .nav-counter { font-size: 1.1rem; min-width: 50px; }
-    .nav-counter #current-num-nav { font-size: 1.3rem; }
-
-    .nav-btn-action { padding: 5px 10px; font-size: 0.7rem; }
-    .nav-btn-action .nav-label { display: none; }
-    .nav-btn-action .nav-icon { font-size: 1rem; }
+    /* Headbar responsive */
+    .headbar-toolbar { padding: 6px 8px; gap: 4px; flex-wrap: wrap; justify-content: center; }
+    .headbar-btn { padding: 6px 10px; }
+    .headbar-btn .head-label { display: none; }
+    .head-arrow { font-size: 1.1rem; }
+    .headbar-counter { font-size: 0.95rem; min-width: 44px; }
+    .counter-cur { font-size: 1.05rem; }
+    .headbar-action { width: 32px; height: 32px; font-size: 0.95rem; }
 
     .flashcard-wrapper { min-height: 480px; }
     .card-front, .card-back { min-height: 480px; padding: 1rem; }
