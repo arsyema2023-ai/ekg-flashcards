@@ -394,7 +394,7 @@ const FLASHCARD_DATA = {
         differential: 'Perikarditis akut (ST elevasi difus), STEMI posterior (ST depresi V1-V3)'
       },
       management: {
-        acute: '1. MONACO + Nitrat hati-hati (kontraindikasi jika curiga RV infarct)\n2. Reperfusi segera: Primary PCI atau Fibrinolitik\n3. Cek EKG lead kanan (V3R, V4R) untuk RV infarct\n4. Jangan berikan Nitrat jika curiga RV infarct (dapat syok)\n5. Monitor AV block → Atropin/Pacing siap siaga',
+        acute: '1. MONACO (Aspirin 160-320mg + Clopidogrel) + Nitrat hati-hati (kontraindikasi jika curiga RV infarct)\n2. Reperfusi segera: Primary PCI atau Fibrinolitik\n3. Cek EKG lead kanan (V3R, V4R) untuk RV infarct\n4. Jangan berikan Nitrat jika curiga RV infarct (dapat syok)\n5. Monitor AV block → Atropin/Pacing siap siaga',
         drugs: 'Aspirin, Clopidogrel, Morfin, ISDN*, Heparin, Statin. *Kontraindikasi jika RV infarct.',
         referral: 'RUJUK UGD → Primary PCI darurat'
       },
@@ -436,7 +436,7 @@ const FLASHCARD_DATA = {
         differential: 'Perikarditis akut, LVH dengan strain (ST depresi, bukan elevasi)'
       },
       management: {
-        acute: '1. MONACO lengkap\n2. Reperfusi segera: Primary PCI\n3. Beta-blocker, Statin, ACE-inhibitor\n4. Antikoagulasi',
+        acute: '1. MONACO (Aspirin 160-320mg + Clopidogrel/Ticagrelor) lengkap\n2. Reperfusi segera: Primary PCI\n3. Beta-blocker, Statin, ACE-inhibitor\n4. Antikoagulasi',
         drugs: 'Aspirin, Ticagrelor/Clopidogrel, Morfin, ISDN, Heparin, Atorvastatin, Metoprolol',
         referral: 'RUJUK CATHLAB untuk PCI Primer'
       },
@@ -479,7 +479,7 @@ const FLASHCARD_DATA = {
         differential: 'NSTEMI (bila tidak direkam lead posterior), Iskemia anterior reversibel'
       },
       management: {
-        acute: '1. MONACO + reperfusi segera\n2. Rekam lead posterior (V7-V9) SEMUA pasien dengan ST depresi anterior + tall R/T\n3. Tatalaksana seperti STEMI inferior',
+        acute: '1. MONACO (Aspirin + Clopidogrel/Ticagrelor) + reperfusi segera\n2. Rekam lead posterior (V7-V9) SEMUA pasien dengan ST depresi anterior + tall R/T\n3. Tatalaksana seperti STEMI inferior',
         drugs: 'Aspirin, Clopidogrel/Ticagrelor, Morfin, ISDN, Heparin, Statin',
         referral: 'RUJUK CATHLAB segera — STEMI posterior memerlukan reperfusi darurat'
       },
@@ -972,7 +972,7 @@ const FLASHCARD_DATA = {
         differential: 'STEMI + Shock distributif, STEMI + RV infarct (JVP meningkat, paru bersih), PE masif, Tamponade'
       },
       management: {
-        acute: '1. MONACO (nitrat hati-hati karena hipotensi)\n2. REVASKULARISASI DARURAT: Primary PCI (I-C) atau CABG emergensi\n3. Vasopresor: Norepinefrin (lini pertama syok kardiogenik)\n4. Inotropik: Dobutamin\n5. Ventilasi mekanik jika perlu\n6. IABP (Intra-Aortic Balloon Pump) pada gagal refrakter',
+        acute: '1. MONACO (Aspirin + Clopidogrel, nitrat hati-hati karena hipotensi)\n2. REVASKULARISASI DARURAT: Primary PCI (I-C) atau CABG emergensi\n3. Vasopresor: Norepinefrin (lini pertama syok kardiogenik)\n4. Inotropik: Dobutamin\n5. Ventilasi mekanik jika perlu\n6. IABP (Intra-Aortic Balloon Pump) pada gagal refrakter',
         drugs: 'Aspirin, Ticagrelor, Heparin, Norepinefrin IV, Dobutamin IV, Furosemid (untuk edema paru)',
         referral: 'RUJUK DARURAT ke CATHLAB untuk PCI Primer. Jika tidak ada fasilitas, beri fibrinolitik + rujuk.'
       },
@@ -1156,7 +1156,7 @@ const FLASHCARD_DATA = {
       management: {
         acute: '1. TURUNKAN TD bertahap: MAP 20-25% dalam 1 jam (jangan turun drastis — dapat iskemia serebral)\n2. Obat IV titrasi: Nicardipin drip 5-15 mg/jam atau Nifedipin oral atau Nitroprusside\n3. Beta-blocker (Esmolol/Labetalol) jika takikardia dominan\n4. Evaluasi CT scan kepala untuk stroke\n5. Ekokardiografi untuk menilai LVH dan fungsi ventrikel',
         drugs: 'Nicardipin IV, Labetalol IV, Nitroprusside IV, Furosemid (jika overload)',
-        referral: 'RUJUK ke HCU/ICU untuk monitoring ketat TD dan organ target'
+        referral: 'RUJUK ke HCU/ICU untuk monitoring ketat TD, ekokardiografi serial, dan manajemen organ target'
       },
       osceTemplate: '"Pasien TD 220/130 dengan sakit kepala berat, papil edema. EKG menunjukkan LVH dengan strain pattern. Diagnosis: Hypertensive Emergency. Saya akan turunkan MAP 25% dalam 1 jam dengan Nicardipin drip, CT scan kepala, dan rawat di ICU."'
     },
@@ -1396,7 +1396,7 @@ const FLASHCARD_DATA = {
         differential: 'AVNRT (sirkuit di AV node), Atrial Takikardia, AT/F dengan pre-eksitasi'
       },
       management: {
-        acute: '1. Sama seperti SVT: Manuver Vagal → Adenosin → Kardioversi\n2. TIDAK BERIKAN AV BLOCKER (Verapamil/Digoksin) untuk pre-eksitasi AF — dapat mempercepat konduksi via aksesoris!\n3. ABLASI RADIOFREKUENSI: Kuratif — terutama jika simptomatik',
+        acute: '1. Sama seperti SVT: Manuver Vagal → Adenosin → Kardioversi\n2. JANGAN berikan AV blocker (Verapamil/Digoksin) untuk pre-eksitasi AF — dapat mempercepat konduksi via aksesoris!\n3. ABLASI RADIOFREKUENSI: Kuratif — terutama jika simptomatik',
         drugs: 'Adenosin 6-12 mg IV (hati-hati — dapat memicu AF pre-eksitasi)',
         referral: 'RUJUK ke Sp.JP untuk ablasi jalur aksesoris (kuratif)'
       },
@@ -1590,7 +1590,7 @@ const FLASHCARD_DATA = {
         differential: 'Tension pneumothorax (trakea deviasi, suara napas hilang), PE masif, Syok kardiogenik'
       },
       management: {
-        acute: '1. PERIKARDIO SENTISIS DARURAT (USG-guided atau blind) — subxiphoid approach\n2. Bisa dekompresi 20-50 mL → perbaikan dramatis\n3. IV fluids bolus (sementara menjaga preload)\n4. Inotropik/vasopresor (bridge)\n5. Identifikasi penyebab (maligna, TB, uremia, infeksi)',
+        acute: '1. Perikardiosentesis darurat (USG-guided atau blind) — subxiphoid approach\n2. Bisa dekompresi 20-50 mL → perbaikan dramatis\n3. IV fluids bolus (sementara menjaga preload)\n4. Inotropik/vasopresor (bridge)\n5. Identifikasi penyebab (maligna, TB, uremia, infeksi)',
         drugs: 'IV fluids, Inotropik (Dobutamin), Analgesik',
         referral: 'RUJUK DARURAT IGD → Perikardiosentesis → Rujuk Sp.JP untuk drainase definitif'
       },
@@ -1948,9 +1948,9 @@ const FLASHCARD_DATA = {
         differential: 'STEMI inferior saja (normotensi, V4R normal), Tamponade jantung (trakea midline, EKG low voltage, electrical alternans)'
       },
       management: {
-        acute: '1. HINDARI NITRAT, MORFIN, DIURETIK!\n2. RESUSITASI CAIRAN AGGRESIF: NaCl 0.9% 500-1000 mL bolus\n3. Jika tidak membaik: Dobutamin atau Norepinefrin\n4. Reperfusi darurat: Primary PCI (rekanalisasi RCA)\n5. Atropin jika bradikardia simptomatik\n6. Pacemaker siaga (risiko AV block tinggi)',
+        acute: '1. HINDARI NITRAT, MORFIN, DIURETIK!\n2. Berikan Aspirin 160-320 mg (kunyah) + Clopidogrel 300 mg oral\n3. RESUSITASI CAIRAN AGGRESIF: NaCl 0.9% 500-1000 mL bolus\n3. Jika tidak membaik: Dobutamin atau Norepinefrin\n4. Reperfusi darurat: Primary PCI (rekanalisasi RCA)\n5. Atropin jika bradikardia simptomatik\n6. Pacemaker siaga (risiko AV block tinggi)',
         drugs: 'IV fluids (NaCl/RL), Dobutamin, Atropin, Aspirin, Clopidogrel, Heparin',
-        referral: 'RUJUK DARURAT CATHLAB untuk PCI RCA'
+        referral: 'RUJUK DARURAT CATHLAB untuk PCI RCA (rekanalisasi)'
       },
       osceTemplate: '"STEMI inferior dengan ST elevasi V4R, hipotensi, JVP meninggi, paru bersih. Diagnosis: STEMI Inferior + RV Infarct. Saya HENTIKAN NITRAT, beri bolus cairan 1000 mL, dan rujuk darurat PCI. Hindari Morfin dan Diuretik."'
     },
@@ -2549,7 +2549,7 @@ const FLASHCARD_DATA = {
         differential: 'STEMI primer (nyeri dada substernal, tidak menjalar ke punggung, TD simetris), ACS, Perikarditis'
       },
       management: {
-        acute: '1. JANGAN BERIKAN TROMBOLISIS (untuk STEMI) — dapat perdarahan fatal!\n2. Turunkan HR ke 60: Esmolol IV bolus + drip (beta-blocker)\n3. Turunkan TD: Nitroprusside IV (setelah beta-blocker)\n4. CT angiografi toraks untuk konfirmasi\n5. Bedah emergensi (if Stanford A — ascending aorta involved)',
+        acute: '1. JANGAN BERIKAN TROMBOLISIS (untuk STEMI) — dapat perdarahan fatal!\n2. Berikan Aspirin 160-320 mg (kunyah) + Clopidogrel secara oral jika tidak ada kontraindikasi\n2. Turunkan HR ke 60: Esmolol IV bolus + drip (beta-blocker)\n3. Turunkan TD: Nitroprusside IV (setelah beta-blocker)\n4. CT angiografi toraks untuk konfirmasi\n5. Bedah emergensi (if Stanford A — ascending aorta involved)',
         drugs: 'Esmolol/Labetalol IV, Nitroprusside IV, Morfin IV',
         referral: 'RUJUK DARURAT ke Bedah Jantung/RS dengan fasilitas CT scan emergensi'
       },
