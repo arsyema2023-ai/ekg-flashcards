@@ -1,302 +1,254 @@
 const clinicalData = [
     {
-        "id": "c-1",
-        "priority": "prioritas-tinggi",
-        "title": "Deep Vein Thrombosis (DVT)",
-        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/c/c2/Deep_vein_thrombosis_of_the_right_leg.jpg",
+        "id": "s2-1",
+        "priority": "prioritas-menengah",
+        "title": "Normal Sinus Rhythm",
+        "generatorConfig": {
+            "heartRate": 74,
+            "leadOverrides": {}
+        },
         "interp": {
-            "deskripsi": "Bengkak asimetris pada satu tungkai bawah.",
-            "korelasi": "Nyeri betis kronis, riwayat imobilisasi lama.",
-            "lab": "D-Dimer, USG Doppler Vena Tungkai.",
-            "management": "Elevasi tungkai, antikoagulan."
+            "irama": "Sinus",
+            "rate": "74 x/menit",
+            "axis": "Normal",
+            "intervals": "PR 0.16s, QRS 0.08s, QT normal",
+            "stt": "Isoelektrik",
+            "clinical": "Pasien Laki-laki 50 tahun, temuan sesuai EKG.",
+            "management": "Edukasi kesehatan. Pasien stabil."
         }
     },
     {
-        "id": "c-2",
+        "id": "s2-2",
         "priority": "prioritas-tinggi",
-        "title": "Pitting Edema",
-        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/4/4e/Pitting_edema.jpg",
+        "title": "STEMI Anteroseptal",
+        "generatorConfig": {
+            "heartRate": 82,
+            "leadOverrides": {
+                "V1": {
+                    "stElevMv": 0.3,
+                    "tAmpMv": 0.5,
+                    "qWave": true
+                },
+                "V2": {
+                    "stElevMv": 0.4,
+                    "tAmpMv": 0.6,
+                    "qWave": true
+                },
+                "V3": {
+                    "stElevMv": 0.4,
+                    "tAmpMv": 0.6,
+                    "qWave": true
+                },
+                "V4": {
+                    "stElevMv": 0.2,
+                    "tAmpMv": 0.4
+                }
+            }
+        },
         "interp": {
-            "deskripsi": "Bengkak pada kedua tungkai yang meninggalkan cekungan saat ditekan.",
-            "korelasi": "Gagal Jantung Kanan (Cor Pulmonale) atau CHF.",
-            "lab": "Ekokardiografi, NT-proBNP.",
-            "management": "Restriksi cairan dan garam, Diuretik (Furosemid)."
+            "irama": "Sinus",
+            "rate": "82 x/menit",
+            "axis": "LAD",
+            "intervals": "PR 0.14s, QRS 0.08s",
+            "stt": "ST Elevasi di V1-V4",
+            "clinical": "Pasien Perempuan 65 tahun, temuan sesuai EKG.",
+            "management": "Oksigen, Aspirin, Clopidogrel, Rujuk PCI segera."
         }
     },
     {
-        "id": "c-3",
+        "id": "s2-3",
         "priority": "prioritas-tinggi",
-        "title": "Peningkatan JVP",
-        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/d/d4/Jugular_venous_distension.jpg",
+        "title": "STEMI Inferior",
+        "generatorConfig": {
+            "heartRate": 65,
+            "leadOverrides": {
+                "II": {
+                    "stElevMv": 0.3,
+                    "qWave": true
+                },
+                "III": {
+                    "stElevMv": 0.4,
+                    "qWave": true
+                },
+                "aVF": {
+                    "stElevMv": 0.3,
+                    "qWave": true
+                },
+                "I": {
+                    "stElevMv": -0.1,
+                    "tInverted": true
+                },
+                "aVL": {
+                    "stElevMv": -0.2,
+                    "tInverted": true
+                }
+            }
+        },
         "interp": {
-            "deskripsi": "Distensi vena jugularis di leher dengan pulsasi yang terlihat jelas.",
-            "korelasi": "Gagal jantung kanan, tamponade jantung.",
-            "lab": "Ekokardiografi, Rontgen Thorax, EKG.",
-            "management": "Tatalaksana penyakit dasar (Diuretik)."
+            "irama": "Sinus",
+            "rate": "65 x/menit",
+            "axis": "Normal",
+            "intervals": "PR 0.16s",
+            "stt": "ST Elevasi II, III, aVF, resiprokal di I, aVL",
+            "clinical": "Pasien Laki-laki 30 tahun, temuan sesuai EKG.",
+            "management": "MONACO. Hindari Nitrat jika curiga infark ventrikel kanan."
         }
     },
     {
-        "id": "c-4",
+        "id": "s2-4",
         "priority": "prioritas-tinggi",
-        "title": "Osler Nodes",
-        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/ae/Osler%27s_nodes.jpg",
+        "title": "Atrial Fibrillation (RVR)",
+        "generatorConfig": {
+            "heartRate": 145,
+            "pWave": false,
+            "fibrillation": true,
+            "irregular": true,
+            "leadOverrides": {
+                "V1": {
+                    "fibrillation": true
+                }
+            }
+        },
         "interp": {
-            "deskripsi": "Nodul merah keunguan, menonjol, dan NYERI pada ujung jari.",
-            "korelasi": "Endokarditis Infektif.",
-            "lab": "Kultur darah 3 set, Ekokardiografi.",
-            "management": "Antibiotik empiris IV dosis tinggi."
+            "irama": "Irregularly irregular, tidak ada gelombang P",
+            "rate": "145 x/menit",
+            "axis": "Normal",
+            "intervals": "QRS sempit",
+            "stt": "Depresi ST sekunder",
+            "clinical": "Pasien Laki-laki 30 tahun, temuan sesuai EKG.",
+            "management": "Rate control. Pertimbangkan kardioversi jika tidak stabil."
         }
     },
     {
-        "id": "c-5",
-        "priority": "prioritas-tinggi",
-        "title": "Janeway Lesions",
-        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/f/f6/Janeway_lesions.png",
+        "id": "s2-5",
+        "priority": "prioritas-menengah",
+        "title": "Atrial Flutter",
+        "generatorConfig": {
+            "heartRate": 150,
+            "pWave": false,
+            "flutter": true,
+            "irregular": false,
+            "leadOverrides": {
+                "II": {
+                    "flutter": true
+                },
+                "III": {
+                    "flutter": true
+                },
+                "aVF": {
+                    "flutter": true
+                }
+            }
+        },
         "interp": {
-            "deskripsi": "Makula merah/hemoragik, datar, TIDAK NYERI pada telapak.",
-            "korelasi": "Endokarditis Infektif (mikroemboli septik).",
-            "lab": "Kultur darah, Ekokardiografi.",
-            "management": "Antibiotik intravena sesuai kultur."
+            "irama": "Saw-tooth di inferior leads",
+            "rate": "150 x/menit",
+            "axis": "Normal",
+            "intervals": "QRS sempit",
+            "stt": "Sulit dinilai",
+            "clinical": "Pasien Perempuan 45 tahun, temuan sesuai EKG.",
+            "management": "Mirip AF."
         }
     },
     {
-        "id": "c-6",
+        "id": "s2-6",
         "priority": "prioritas-tinggi",
-        "title": "Clubbing Fingers",
-        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/c/c3/Clubbing_of_fingers_in_Eisenmenger%27s_syndrome.jpg",
+        "title": "Ventricular Tachycardia (VT)",
+        "generatorConfig": {
+            "heartRate": 185,
+            "pWave": false,
+            "qrsMs": 140,
+            "lbbb": true,
+            "leadOverrides": {}
+        },
         "interp": {
-            "deskripsi": "Pembengkakan jaringan lunak ujung jari, hilangnya sudut kuku.",
-            "korelasi": "Penyakit jantung bawaan sianotik, endokarditis, PPOK.",
-            "lab": "Pulse oximetry, Ekokardiografi.",
-            "management": "Oksigenasi, cari penyebab hipoksia kronis."
+            "irama": "Reguler, dari ventrikel",
+            "rate": "185 x/menit",
+            "axis": "Normal",
+            "intervals": "QRS LEBAR",
+            "stt": "Arah berlawanan dengan QRS",
+            "clinical": "Pasien Perempuan 45 tahun, temuan sesuai EKG.",
+            "management": "Jika nadi (-): RJP & Defibrilasi."
         }
     },
     {
-        "id": "c-7",
+        "id": "s2-7",
         "priority": "prioritas-tinggi",
-        "title": "Xanthelasma",
-        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/2/23/Xanthelasma.jpg",
+        "title": "Ventricular Fibrillation (VF)",
+        "generatorConfig": {
+            "heartRate": 255,
+            "pWave": false,
+            "vf": true,
+            "leadOverrides": {}
+        },
         "interp": {
-            "deskripsi": "Plak kekuningan berbatas tegas di kelopak mata.",
-            "korelasi": "Hiperlipidemia familial.",
-            "lab": "Profil Lipid lengkap.",
-            "management": "Statin intensitas tinggi."
+            "irama": "Kacau (Chaotic)",
+            "rate": "255 x/menit",
+            "axis": "Normal",
+            "intervals": "Tidak dapat dinilai",
+            "stt": "Tidak dapat dinilai",
+            "clinical": "Pasien Laki-laki 30 tahun, temuan sesuai EKG.",
+            "management": "Code Blue! RJP segera + Defibrilasi."
         }
     },
     {
-        "id": "c-8",
-        "priority": "prioritas-tinggi",
-        "title": "Corneal Arcus (Arcus Senilis)",
-        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/2/26/Arcus_senilis.jpg",
+        "id": "s2-8",
+        "priority": "prioritas-menengah",
+        "title": "Left Bundle Branch Block (LBBB)",
+        "generatorConfig": {
+            "heartRate": 69,
+            "qrsMs": 130,
+            "lbbb": true,
+            "leadOverrides": {}
+        },
         "interp": {
-            "deskripsi": "Cincin abu-abu keputihan di tepi kornea mata.",
-            "korelasi": "Normal pada lansia. Jika usia < 40 tahun sangat prediktif dislipidemia.",
-            "lab": "Profil Lipid darah.",
-            "management": "Statin jika terbukti dislipidemia pada usia muda."
+            "irama": "Sinus",
+            "rate": "69 x/menit",
+            "axis": "LAD",
+            "intervals": "QRS LEBAR > 120ms",
+            "stt": "R lebar/notched di V5, V6, I, aVL",
+            "clinical": "Pasien Perempuan 65 tahun, temuan sesuai EKG.",
+            "management": "Jika baru pada pasien nyeri dada, anggap STEMI ekivalen."
         }
     },
     {
-        "id": "c-9",
-        "priority": "prioritas-tinggi",
-        "title": "Peripheral Arterial Disease (Ulserasi)",
-        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/2/2c/Diabetic_foot_ulcer.jpg",
+        "id": "s2-9",
+        "priority": "prioritas-menengah",
+        "title": "Right Bundle Branch Block (RBBB)",
+        "generatorConfig": {
+            "heartRate": 74,
+            "qrsMs": 120,
+            "rbbb": true,
+            "leadOverrides": {}
+        },
         "interp": {
-            "deskripsi": "Luka ulkus dangkal di ujung jari.",
-            "korelasi": "Claudicatio intermittens.",
-            "lab": "Ankle-Brachial Index (ABI) < 0.9.",
-            "management": "Stop merokok, Cilostazol/Aspirin."
+            "irama": "Sinus",
+            "rate": "74 x/menit",
+            "axis": "Normal",
+            "intervals": "QRS LEBAR > 120ms",
+            "stt": "Pola rSR' di V1-V2, S lebar di I, V6",
+            "clinical": "Pasien Laki-laki 30 tahun, temuan sesuai EKG.",
+            "management": "Observasi. Jika sesak akut: curiga Emboli Paru."
         }
     },
     {
-        "id": "c-10",
-        "priority": "prioritas-tinggi",
-        "title": "Erythema Marginatum",
-        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/05/Erythema_marginatum.jpg",
+        "id": "s2-10",
+        "priority": "prioritas-menengah",
+        "title": "Hiperkalemia",
+        "generatorConfig": {
+            "heartRate": 51,
+            "qrsMs": 110,
+            "hyperkalemia": true,
+            "leadOverrides": {}
+        },
         "interp": {
-            "deskripsi": "Ruam makulopapular kemerahan dengan bagian tengah memudar.",
-            "korelasi": "Demam Reumatik Akut.",
-            "lab": "ASTO, EKG, Ekokardiografi.",
-            "management": "Penisilin V atau Benzatin Penisilin G."
-        }
-    },
-    {
-        "id": "c-11",
-        "priority": "prioritas-tinggi",
-        "title": "Deep Vein Thrombosis (DVT)",
-        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/c/c2/Deep_vein_thrombosis_of_the_right_leg.jpg",
-        "interp": {
-            "deskripsi": "Bengkak asimetris pada satu tungkai bawah.",
-            "korelasi": "Nyeri betis kronis, riwayat imobilisasi lama.",
-            "lab": "D-Dimer, USG Doppler Vena Tungkai.",
-            "management": "Elevasi tungkai, antikoagulan."
-        }
-    },
-    {
-        "id": "c-12",
-        "priority": "prioritas-tinggi",
-        "title": "Pitting Edema",
-        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/4/4e/Pitting_edema.jpg",
-        "interp": {
-            "deskripsi": "Bengkak pada kedua tungkai yang meninggalkan cekungan saat ditekan.",
-            "korelasi": "Gagal Jantung Kanan (Cor Pulmonale) atau CHF.",
-            "lab": "Ekokardiografi, NT-proBNP.",
-            "management": "Restriksi cairan dan garam, Diuretik (Furosemid)."
-        }
-    },
-    {
-        "id": "c-13",
-        "priority": "prioritas-tinggi",
-        "title": "Peningkatan JVP",
-        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/d/d4/Jugular_venous_distension.jpg",
-        "interp": {
-            "deskripsi": "Distensi vena jugularis di leher dengan pulsasi yang terlihat jelas.",
-            "korelasi": "Gagal jantung kanan, tamponade jantung.",
-            "lab": "Ekokardiografi, Rontgen Thorax, EKG.",
-            "management": "Tatalaksana penyakit dasar (Diuretik)."
-        }
-    },
-    {
-        "id": "c-14",
-        "priority": "prioritas-tinggi",
-        "title": "Osler Nodes",
-        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/ae/Osler%27s_nodes.jpg",
-        "interp": {
-            "deskripsi": "Nodul merah keunguan, menonjol, dan NYERI pada ujung jari.",
-            "korelasi": "Endokarditis Infektif.",
-            "lab": "Kultur darah 3 set, Ekokardiografi.",
-            "management": "Antibiotik empiris IV dosis tinggi."
-        }
-    },
-    {
-        "id": "c-15",
-        "priority": "prioritas-tinggi",
-        "title": "Janeway Lesions",
-        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/f/f6/Janeway_lesions.png",
-        "interp": {
-            "deskripsi": "Makula merah/hemoragik, datar, TIDAK NYERI pada telapak.",
-            "korelasi": "Endokarditis Infektif (mikroemboli septik).",
-            "lab": "Kultur darah, Ekokardiografi.",
-            "management": "Antibiotik intravena sesuai kultur."
-        }
-    },
-    {
-        "id": "c-16",
-        "priority": "prioritas-tinggi",
-        "title": "Clubbing Fingers",
-        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/c/c3/Clubbing_of_fingers_in_Eisenmenger%27s_syndrome.jpg",
-        "interp": {
-            "deskripsi": "Pembengkakan jaringan lunak ujung jari, hilangnya sudut kuku.",
-            "korelasi": "Penyakit jantung bawaan sianotik, endokarditis, PPOK.",
-            "lab": "Pulse oximetry, Ekokardiografi.",
-            "management": "Oksigenasi, cari penyebab hipoksia kronis."
-        }
-    },
-    {
-        "id": "c-17",
-        "priority": "prioritas-tinggi",
-        "title": "Xanthelasma",
-        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/2/23/Xanthelasma.jpg",
-        "interp": {
-            "deskripsi": "Plak kekuningan berbatas tegas di kelopak mata.",
-            "korelasi": "Hiperlipidemia familial.",
-            "lab": "Profil Lipid lengkap.",
-            "management": "Statin intensitas tinggi."
-        }
-    },
-    {
-        "id": "c-18",
-        "priority": "prioritas-tinggi",
-        "title": "Corneal Arcus (Arcus Senilis)",
-        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/2/26/Arcus_senilis.jpg",
-        "interp": {
-            "deskripsi": "Cincin abu-abu keputihan di tepi kornea mata.",
-            "korelasi": "Normal pada lansia. Jika usia < 40 tahun sangat prediktif dislipidemia.",
-            "lab": "Profil Lipid darah.",
-            "management": "Statin jika terbukti dislipidemia pada usia muda."
-        }
-    },
-    {
-        "id": "c-19",
-        "priority": "prioritas-tinggi",
-        "title": "Peripheral Arterial Disease (Ulserasi)",
-        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/2/2c/Diabetic_foot_ulcer.jpg",
-        "interp": {
-            "deskripsi": "Luka ulkus dangkal di ujung jari.",
-            "korelasi": "Claudicatio intermittens.",
-            "lab": "Ankle-Brachial Index (ABI) < 0.9.",
-            "management": "Stop merokok, Cilostazol/Aspirin."
-        }
-    },
-    {
-        "id": "c-20",
-        "priority": "prioritas-tinggi",
-        "title": "Erythema Marginatum",
-        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/05/Erythema_marginatum.jpg",
-        "interp": {
-            "deskripsi": "Ruam makulopapular kemerahan dengan bagian tengah memudar.",
-            "korelasi": "Demam Reumatik Akut.",
-            "lab": "ASTO, EKG, Ekokardiografi.",
-            "management": "Penisilin V atau Benzatin Penisilin G."
-        }
-    },
-    {
-        "id": "c-21",
-        "priority": "prioritas-tinggi",
-        "title": "Deep Vein Thrombosis (DVT)",
-        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/c/c2/Deep_vein_thrombosis_of_the_right_leg.jpg",
-        "interp": {
-            "deskripsi": "Bengkak asimetris pada satu tungkai bawah.",
-            "korelasi": "Nyeri betis kronis, riwayat imobilisasi lama.",
-            "lab": "D-Dimer, USG Doppler Vena Tungkai.",
-            "management": "Elevasi tungkai, antikoagulan."
-        }
-    },
-    {
-        "id": "c-22",
-        "priority": "prioritas-tinggi",
-        "title": "Pitting Edema",
-        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/4/4e/Pitting_edema.jpg",
-        "interp": {
-            "deskripsi": "Bengkak pada kedua tungkai yang meninggalkan cekungan saat ditekan.",
-            "korelasi": "Gagal Jantung Kanan (Cor Pulmonale) atau CHF.",
-            "lab": "Ekokardiografi, NT-proBNP.",
-            "management": "Restriksi cairan dan garam, Diuretik (Furosemid)."
-        }
-    },
-    {
-        "id": "c-23",
-        "priority": "prioritas-tinggi",
-        "title": "Peningkatan JVP",
-        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/d/d4/Jugular_venous_distension.jpg",
-        "interp": {
-            "deskripsi": "Distensi vena jugularis di leher dengan pulsasi yang terlihat jelas.",
-            "korelasi": "Gagal jantung kanan, tamponade jantung.",
-            "lab": "Ekokardiografi, Rontgen Thorax, EKG.",
-            "management": "Tatalaksana penyakit dasar (Diuretik)."
-        }
-    },
-    {
-        "id": "c-24",
-        "priority": "prioritas-tinggi",
-        "title": "Osler Nodes",
-        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/ae/Osler%27s_nodes.jpg",
-        "interp": {
-            "deskripsi": "Nodul merah keunguan, menonjol, dan NYERI pada ujung jari.",
-            "korelasi": "Endokarditis Infektif.",
-            "lab": "Kultur darah 3 set, Ekokardiografi.",
-            "management": "Antibiotik empiris IV dosis tinggi."
-        }
-    },
-    {
-        "id": "c-25",
-        "priority": "prioritas-tinggi",
-        "title": "Janeway Lesions",
-        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/f/f6/Janeway_lesions.png",
-        "interp": {
-            "deskripsi": "Makula merah/hemoragik, datar, TIDAK NYERI pada telapak.",
-            "korelasi": "Endokarditis Infektif (mikroemboli septik).",
-            "lab": "Kultur darah, Ekokardiografi.",
-            "management": "Antibiotik intravena sesuai kultur."
+            "irama": "Lambat",
+            "rate": "51 x/menit",
+            "axis": "Normal",
+            "intervals": "PR memanjang, QRS melebar",
+            "stt": "Tall Tented T-Waves",
+            "clinical": "Pasien Laki-laki 30 tahun, temuan sesuai EKG.",
+            "management": "Emergensi. Kalsium glukonas IV."
         }
     }
 ];

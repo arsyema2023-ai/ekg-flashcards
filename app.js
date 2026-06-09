@@ -42,12 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const interpClinical = document.getElementById('interp-clinical');
     const interpManagement = document.getElementById('interp-management');
 
-    // Klinis back elements
-    const interpKlinisContainer = document.getElementById('interp-klinis');
-    const interpCDeskripsi = document.getElementById('interp-c-deskripsi');
-    const interpCKorelasi = document.getElementById('interp-c-korelasi');
-    const interpCLab = document.getElementById('interp-c-lab');
-    const interpCManagement = document.getElementById('interp-c-management');
+
 
     // App State
     let currentMode = 'ekg'; // 'ekg' or 'klinis'
@@ -172,10 +167,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
     function toggleHint(e) {
         if(e) e.stopPropagation();
-        if(currentMode !== 'ekg') return;
-        
         const cardData = deck[currentIndex];
-        if(!cardData.generatorConfig) return;
+        if(!cardData || !cardData.generatorConfig) return;
         
         cardData.generatorConfig.showLabels = !cardData.generatorConfig.showLabels;
         ecgDisplay.innerHTML = ecgGenerator.render(cardData.generatorConfig);
@@ -229,80 +222,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
         diagnosisTitle.textContent = cardData.title;
 
-        if (currentMode === 'ekg') {
-            // Front UI
-            ecgDisplay.classList.remove('hidden');
-            clinicalDisplay.classList.add('hidden');
-            hintContainer.classList.remove('hidden');
-            // Back UI
-            interpEkgContainer.classList.remove('hidden');
-            interpKlinisContainer.classList.add('hidden');
-            
-            // Reset hint label
-            if (cardData.generatorConfig) {
-                cardData.generatorConfig.showLabels = false;
-                hintBtn.textContent = 'Tampilkan Petunjuk Gelombang';
-            }
-            // Render ECG SVG
+        // Front UI
+        ecgDisplay.classList.remove('hidden');
+        if(clinicalDisplay) clinicalDisplay.classList.add('hidden');
+        hintContainer.classList.remove('hidden');
+        
+        // Back UI
+        interpEkgContainer.classList.remove('hidden');
+        if(interpKlinisContainer) interpKlinisContainer.classList.add('hidden');
+        
+        // Reset hint label
+        if (cardData.generatorConfig) {
+            cardData.generatorConfig.showLabels = false;
+            hintBtn.textContent = 'Tampilkan Petunjuk Gelombang';
             ecgDisplay.innerHTML = ecgGenerator.render(cardData.generatorConfig);
-            
-            // Render Text
-            interpIrama.textContent = cardData.interp.irama;
-            interpRate.textContent = cardData.interp.rate;
-            interpAxis.textContent = cardData.interp.axis;
-            interpIntervals.textContent = cardData.interp.intervals;
-            interpStt.textContent = cardData.interp.stt;
-            interpClinical.textContent = cardData.interp.clinical;
-            interpManagement.textContent = cardData.interp.management;
-            
-        } else if (currentMode === 'klinis') {
-            // Front UI
-            ecgDisplay.classList.add('hidden');
-            clinicalDisplay.classList.remove('hidden');
-            hintContainer.classList.add('hidden');
-            clinicalImg.classList.remove('contain-img'); // cover for clinical photos
-            // Back UI
-            interpEkgContainer.classList.add('hidden');
-            interpKlinisContainer.classList.remove('hidden');
-            
-            // Render Clinical Image
-            clinicalImg.style.display = 'block'; 
-            imgFallback.classList.add('hidden');
-            clinicalImg.src = cardData.imageUrl;
-            
-            // Render Text
-            interpCDeskripsi.textContent = cardData.interp.deskripsi;
-            interpCKorelasi.textContent = cardData.interp.korelasi;
-            interpCLab.textContent = cardData.interp.lab;
-            interpCManagement.textContent = cardData.interp.management;
-            
-        } else if (currentMode === 'real') {
-            // Front UI
-            ecgDisplay.classList.remove('hidden');
-            clinicalDisplay.classList.add('hidden');
-            hintContainer.classList.remove('hidden');
-            // Back UI uses EKG layout
-            interpEkgContainer.classList.remove('hidden');
-            interpKlinisContainer.classList.add('hidden');
-            
-            // Reset hint label
-            if (cardData.generatorConfig) {
-                cardData.generatorConfig.showLabels = false;
-                hintBtn.textContent = 'Tampilkan Petunjuk Gelombang';
-            }
-            
-            // Render ECG Image (SVG generated precision)
-            ecgDisplay.innerHTML = ecgGenerator.render(cardData.generatorConfig);
-            
-            // Render Text
-            interpIrama.textContent = cardData.interp.irama;
-            interpRate.textContent = cardData.interp.rate;
-            interpAxis.textContent = cardData.interp.axis;
-            interpIntervals.textContent = cardData.interp.intervals;
-            interpStt.textContent = cardData.interp.stt;
-            interpClinical.textContent = cardData.interp.clinical;
-            interpManagement.textContent = cardData.interp.management;
         }
+        
+        // Render Text
+        interpIrama.textContent = cardData.interp.irama;
+        interpRate.textContent = cardData.interp.rate;
+        interpAxis.textContent = cardData.interp.axis;
+        interpIntervals.textContent = cardData.interp.intervals;
+        interpStt.textContent = cardData.interp.stt;
+        interpClinical.textContent = cardData.interp.clinical;
+        interpManagement.textContent = cardData.interp.management;
+        
         
         // Update Buttons
         prevBtn.disabled = currentIndex === 0;

@@ -13,10 +13,10 @@
             <h1>OSCE EKG Master</h1>
             <p>25 Kasus Wajib Dokter Umum (SKDI/SNPPDI 2019)</p>
             
-            <div class="mode-toggle">
-                <button class="mode-btn active" id="mode-ekg">Mode EKG (Sim)</button>
-                <button class="mode-btn" id="mode-klinis">Mode Klinis</button>
-                <button class="mode-btn" id="mode-real">Mode EKG (Asli)</button>
+            <div class="mode-selector">
+                <button class="btn btn-outline active" id="btn-mode-ekg" data-mode="ekg">Set 1 (25 EKG)</button>
+                <button class="btn btn-outline" id="btn-mode-klinis" data-mode="klinis">Set 2 (10 EKG)</button>
+                <button class="btn btn-outline" id="btn-mode-real" data-mode="real">Set 3 (25 EKG)</button>
             </div>
         </header>
 
@@ -76,12 +76,8 @@
                         </div>
                         <!-- Front: Display -->
                         <div class="card-front">
-                            <div class="display-container" id="ecg-display">
+                            <div class="display-container" id="ecg-display" style="width: 100%; overflow-x: auto;">
                                 <!-- SVG / Canvas -->
-                            </div>
-                            <div class="clinical-img-container hidden" id="clinical-display">
-                                <img id="clinical-img" src="" alt="Clinical Sign" class="contain-img">
-                                <div id="img-fallback" class="hidden image-fallback">Gambar tidak dapat dimuat.</div>
                             </div>
                             <div class="hint-container" id="hint-container" style="text-align: center; margin-top: 10px;">
                                 <button class="btn btn-secondary" id="btn-hint">Tampilkan Petunjuk Gelombang</button>
@@ -95,13 +91,21 @@
                             <h2 id="diagnosis-title">Diagnosis</h2>
                         </div>
                         <div class="interpretation-content" id="interp-ekg">
-                            <div class="interp-row"><strong>Irama:</strong> <span id="interp-irama"></span></div>
-                            <div class="interp-row"><strong>Frekuensi:</strong> <span id="interp-rate"></span></div>
-                            <div class="interp-row"><strong>Aksis:</strong> <span id="interp-axis"></span></div>
-                            <div class="interp-row"><strong>PR/QRS/QT:</strong> <span id="interp-intervals"></span></div>
-                            <div class="interp-row"><strong>ST-T:</strong> <span id="interp-stt"></span></div>
-                            <div class="interp-row highlight"><strong>Korelasi Klinis:</strong> <span id="interp-clinical"></span></div>
-                            <div class="interp-row action"><strong>Tatalaksana Awal:</strong> <span id="interp-management"></span></div>
+                            <div class="interp-grid">
+                                <div class="interp-item"><strong>Irama:</strong> <span id="interp-irama"></span></div>
+                                <div class="interp-item"><strong>Frekuensi:</strong> <span id="interp-rate"></span></div>
+                                <div class="interp-item"><strong>Aksis:</strong> <span id="interp-axis"></span></div>
+                                <div class="interp-item"><strong>Interval:</strong> <span id="interp-intervals"></span></div>
+                                <div class="interp-item"><strong>Segmen ST/T:</strong> <span id="interp-stt"></span></div>
+                            </div>
+                            <div class="clinical-section">
+                                <strong>Korelasi Klinis:</strong>
+                                <p id="interp-clinical"></p>
+                            </div>
+                            <div class="management-section">
+                                <strong>Tatalaksana Awal:</strong>
+                                <p id="interp-management"></p>
+                            </div>
                         </div>
                         <div class="interpretation-content hidden" id="interp-klinis">
                             <div class="interp-row"><strong>Deskripsi:</strong> <span id="interp-c-deskripsi"></span></div>
