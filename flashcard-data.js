@@ -200,7 +200,7 @@ const FLASHCARD_DATA = {
         qrsComplex: '0.08 detik — Sempit (mengonfirmasi asal supraventrikel)',
         stSegment: 'Depresi ST ringan non-spesifik — akibat takikardia cepat (demand ischemia)',
         tWave: 'Mungkin inversi ringan pasca episode',
-        qtInterval: 'Memendak seiring HR tinggi',
+        qtInterval: 'Memendek seiring HR tinggi',
         uWave: 'Tidak tampak',
         ecgDiagnosis: 'Supraventricular Tachycardia (SVT), kemungkinan besar AV Nodal Reentrant Tachycardia (AVNRT)'
       },
@@ -1367,37 +1367,31 @@ const FLASHCARD_DATA = {
       title: 'Supraventricular Tachycardia (AVRT — WPW)',
       priority: 'priority-tinggi',
       ecgParams: {
-        heartRate: 195, prInterval: 0.08, qrsDuration: 0.10, qtInterval: 0.24,
+        heartRate: 195, prInterval: 0, qrsDuration: 0.08, qtInterval: 0.24,
         pVisible: false, rAmplitude: 1.0, sAmplitude: 0.2, tAmplitude: 0.3,
-        wpw: true, deltaWave: true,
-        leads: {
-          'V1': { deltaWave: true, rAmplitude: 0.9 },
-          'V2': { deltaWave: true, rAmplitude: 1.1 },
-          'V5': { deltaWave: true, rAmplitude: 1.5 },
-          'V6': { deltaWave: true, rAmplitude: 1.3 }
-        }
+        leads: {}
       },
       interp: {
         irama: 'Sangat teratur, onset mendadak',
         rate: '195 x/menit',
         axis: 'Normal atau bervariasi',
-        prInterval: 'PR sangat pendek (0.08 detik) — Delta wave menggantikan PR normal',
-        qrsComplex: '0.10 detik — Sedikit melebar karena delta wave (ortodromic AVRT)',
+        prInterval: 'Tidak dapat dinilai — P retrograde setelah QRS (inverted di II, III, aVF)',
+        qrsComplex: '0.08 detik — SEMPIT (ortodromic AVRT, konduksi anterograd via AV node)',
         stSegment: 'Depresi ST ringan sekunder takikardia',
         tWave: 'Inversi ringan pasca episode',
         qtInterval: 'QTc normal setelah dikoreksi',
         uWave: 'Tidak tampak',
-        ecgDiagnosis: 'SVT — AVRT (Atrioventricular Reentrant Tachycardia via accessory pathway / WPW)'
+        ecgDiagnosis: 'SVT — Orthodromic AVRT via aksesoris (WPW), QRS sempit saat takikardia'
       },
       clinical: {
         scenario: 'Laki-laki 18 tahun, jantung berdebar mendadak saat olahraga, berhenti tiba-tiba setelah manuver Valsalva. EKG saat irama sinus normal menunjukkan PR pendek + delta wave (WPW pattern). Episode sudah 4 kali dalam 1 tahun.',
-        correlation: 'AVRT menggunakan jalur aksesoris (bundel Kent) sebagai bagian dari sirkuit re-entry. WPW pattern: PR pendek + delta wave + QRS lebar. Risiko: AF pre-eksitasi dapat degenerasi ke VF.',
+        correlation: 'AVRT orthodromic: impuls turun via AV node (QRS sempit), naik via aksesoris. Delta wave hanya tampak pada irama sinus, bukan saat AVRT. Risiko: AF pre-eksitasi dapat degenerasi ke VF.',
         diagnosis: 'Symptomatic WPW Syndrome — AVRT (Ortodromic)',
         differential: 'AVNRT (sirkuit di AV node), Atrial Takikardia, AT/F dengan pre-eksitasi'
       },
       management: {
         acute: '1. Sama seperti SVT: Manuver Vagal → Adenosin → Kardioversi\n2. JANGAN berikan AV blocker (Verapamil/Digoksin) untuk pre-eksitasi AF — dapat mempercepat konduksi via aksesoris!\n3. ABLASI RADIOFREKUENSI: Kuratif — terutama jika simptomatik',
-        drugs: 'Adenosin 6-12 mg IV (hati-hati — dapat memicu AF pre-eksitasi)',
+        drugs: 'Adenosin 6-12 mg IV (first line orthodromic AVRT), hindari AV blocker jika pre-eksitasi AF',
         referral: 'RUJUK ke Sp.JP untuk ablasi jalur aksesoris (kuratif)'
       },
       osceTemplate: '"Pasien SVT simptomatik dengan WPW pattern pada EKG sinus. Diagnosis: WPW Syndrome (AVRT ortrodromic). Episode akut diatasi dengan Adenosin. Rencanakan ablasi radiofrekuensi untuk tatalaksana definitif."'
